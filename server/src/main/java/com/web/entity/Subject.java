@@ -20,6 +20,8 @@ public class Subject {
 
     private String code;
 
+    private String image;
+
     private Date createdDate;
 
     @ManyToOne

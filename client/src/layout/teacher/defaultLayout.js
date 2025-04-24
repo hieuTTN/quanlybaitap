@@ -64,7 +64,7 @@ function DefaultLayout ({children}){
             </div>
         </div>
         <div class="col-1 nav-left-teacher">
-            <a className={isActive(["/teacher/blog"])} href=""><i class="fa fa-bell"></i><br/><span>Thông báo</span></a>
+            <a className={isActive(["/teacher/blog","/teacher/blog-detail"])} href="/teacher/blog"><i class="fa fa-bell"></i><br/><span>Thông báo</span></a>
             <a className={isActive(["/teacher/subject"])} href=""><i class="fa fa-book"></i><br/><span>Môn học</span></a>
             <a className={isActive(["/teacher/chat"])} href=""><i class="fa fa-comment"></i><br/><span>Tin nhắn</span></a>
             <a className={isActive(["/teacher/baitap"])} href=""><i class="fa fa-file"></i><br/><span>Bài tập</span></a>

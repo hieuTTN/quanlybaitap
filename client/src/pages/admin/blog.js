@@ -87,7 +87,7 @@ const AdminBlog = ()=>{
                                     <td>{item.id}</td>
                                     <td><img src={item.image} className='imgadmin'/></td>
                                     <td>{item.createdDate}</td>
-                                    <td>{item.user.username}</td>
+                                    <td>{item.user.email}</td>
                                     <td>{item.title}</td>
                                     <td class="sticky-col">
                                         <a href={"add-blog?id="+item.id} class="edit-btn"><i className='fa fa-edit'></i></a>

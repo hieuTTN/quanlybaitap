@@ -20,6 +20,7 @@ import datLaiMatKhauPage from '../pages/public/datlaimatkhau'
 
 //teacher
 import TinTuc from '../pages/teacher/blog'
+import TinTucDetail from '../pages/teacher/blogdetail'
 
 
 const publicRoutes = [
@@ -33,6 +34,7 @@ const publicRoutes = [
 
 const teacherRoutes = [
     { path: "/teacher/blog", component: TinTuc, layout: layoutTeacher },
+    { path: "/teacher/blog-detail", component: TinTucDetail, layout: layoutTeacher },
 ];
 
 
