@@ -1,0 +1,94 @@
+.head-page-teacher{
+    border-bottom: 1px solid #d1d1d1;
+    background-color: #ebebeb;
+    height: 40px;
+}
+.nav-left-teacher{
+    border-right: 1px solid #d1d1d1;
+    background-color: #ebebeb;
+    height: calc(100vh - 58px);
+}
+.content-page-teacher{
+    height: calc(100vh - 58px);
+    overflow-y: scroll;
+}
+.text-teacher-left{
+    text-align: center;
+    margin-top: 25px;
+    color: #4a4a4a;
+    display: block;
+    text-decoration: none;
+}
+.text-teacher-left i {
+    font-size: 24px;
+}
+.text-teacher-left span {
+    font-size: 11px;
+}
+.active-text-left{
+    color: blue;
+    font-weight: 500;
+}
+.active-text-left span{
+    padding-bottom: 5px;
+    border-bottom: 2px solid blue;
+}
+.logo-teacher-left{
+    display: block;
+    text-align: center;
+}
+.img-head-logo{
+    height: 20px;
+    margin-top: 10px;
+}
+.user-logged-head-teacher{
+    position: relative;
+}
+.in-user-logged{
+    position: absolute;
+    right: 50px;
+    top: 0px;
+    height: 40px;
+}
+.drop-user-nav{
+    list-style: none;
+}
+.avatar-head{
+    height: 25px;
+}
+.toggle-head{
+    line-height: 40px;
+}
+.div-search-head{
+    width: 100%;
+    border: 1px solid #9c9c9c;
+    border-radius: 5px;
+    height: 28px;
+    margin-top: 6px;
+    background: #fff;
+}
+.div-search-head i{
+    width: 10%;
+    font-size: 13px;
+    padding-left: 5%;
+    margin-top: -5px;
+}
+.div-search-head input{
+    width: 70%;
+    height: 100%;
+    border: none;
+    font-size: 13px;
+}
+.div-search-head input:focus{
+    outline: none;
+}
+.single-blog{
+    display: block;
+    text-decoration: none;
+}
+.img-blog-index{
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
