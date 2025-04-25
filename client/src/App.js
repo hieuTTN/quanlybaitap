@@ -1,8 +1,9 @@
 import { ToastContainer, toast } from 'react-toastify';
 import {Routes, Route,BrowserRouter as Router} from 'react-router-dom'
 import DefaultLayoutTeacher from './layout/teacher/defaultLayout'
+import DefaultLayoutStudent from './layout/student/defaultLayout'
 import LoginLayout from './layout/loginlayout/login'
-import { publicRoutes, adminRoutes, teacherRoutes } from './router/index';
+import { publicRoutes, adminRoutes, teacherRoutes, studentRoutes } from './router/index';
 import AdminLayout from './layout/admin/Layout'
 import { Navigate } from 'react-router-dom';
 
@@ -24,6 +25,20 @@ function App() {
 
             {teacherRoutes.map((route, index) => {
               const Layout = route.layout || DefaultLayoutTeacher
+              const Page = route.component
+              if (!token) {
+                return <Route key={index} path={route.path} element={<Navigate to="/login" />} />;
+              }
+
+              return <Route key={index} path={route.path} element={
+                <Layout>
+                  <Page/>
+                </Layout>
+              }/>
+            })}
+
+            {studentRoutes.map((route, index) => {
+              const Layout = route.layout || DefaultLayoutStudent
               const Page = route.component
               if (!token) {
                 return <Route key={index} path={route.path} element={<Navigate to="/login" />} />;

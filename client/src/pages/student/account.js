@@ -66,7 +66,7 @@ async function updateInfor(event) {
     document.getElementById("loading").style.display = 'none'
 };
 
-function AccountTeacher(){
+function AccountStudent(){
    const [user, setUser] = useState(null);
    const [value, setValue] = React.useState(0);
     useEffect(()=>{
@@ -182,4 +182,4 @@ function a11yProps(index) {
         'aria-controls': `vertical-tabpanel-${index}`,
     };
 }
-export default AccountTeacher;
+export default AccountStudent;

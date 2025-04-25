@@ -1,6 +1,7 @@
 import layoutAdmin from '../layout/admin/Layout'
 import layoutLogin from '../layout/loginlayout/login'
 import layoutTeacher from '../layout/teacher/defaultLayout'
+import layoutStudent from '../layout/student/defaultLayout'
 
 //admin
 import userAdmin from '../pages/admin/user'
@@ -23,6 +24,13 @@ import TinTuc from '../pages/teacher/blog'
 import TinTucDetail from '../pages/teacher/blogdetail'
 import SubjectTeacher from '../pages/teacher/subject'
 import AccountTeacher from '../pages/teacher/account'
+import ChatTeacher from '../pages/teacher/chat'
+
+//student
+import TinTucStudent from '../pages/student/blog'
+import TinTucDetailStudent from '../pages/student/blogdetail'
+import AccountStudent from '../pages/student/account'
+import ChatStudent from '../pages/student/chat'
 
 
 const publicRoutes = [
@@ -39,6 +47,14 @@ const teacherRoutes = [
     { path: "/teacher/blog-detail", component: TinTucDetail, layout: layoutTeacher },
     { path: "/teacher/subject", component: SubjectTeacher, layout: layoutTeacher },
     { path: "/teacher/account", component: AccountTeacher, layout: layoutTeacher },
+    { path: "/teacher/chat", component: ChatTeacher, layout: layoutTeacher },
+];
+
+const studentRoutes = [
+    { path: "/student/blog", component: TinTucStudent, layout: layoutStudent },
+    { path: "/student/blog-detail", component: TinTucDetailStudent, layout: layoutStudent },
+    { path: "/student/account", component: AccountStudent, layout: layoutStudent },
+    { path: "/student/chat", component: ChatStudent, layout: layoutStudent },
 ];
 
 
@@ -52,4 +68,4 @@ const adminRoutes = [
 
 
 
-export { publicRoutes, adminRoutes, teacherRoutes};
+export { publicRoutes, adminRoutes, teacherRoutes,studentRoutes};

@@ -44,6 +44,9 @@ async function processLogin(user, token) {
     if (user.authorities.name === "ROLE_TEACHER") {
         window.location.href = 'teacher/blog';
     }
+    if (user.authorities.name === "ROLE_STUDENT") {
+        window.location.href = 'student/blog';
+    }
 }
 
 

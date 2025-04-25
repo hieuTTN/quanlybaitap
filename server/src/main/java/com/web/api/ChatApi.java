@@ -42,7 +42,7 @@ public class ChatApi {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/user/getAllUserChat")
+    @GetMapping("/all/getAllUserChat")
     public ResponseEntity<?> getAllUserChat(@RequestParam(value = "search", required = false) String search){
         if(search == null){
             search = "";

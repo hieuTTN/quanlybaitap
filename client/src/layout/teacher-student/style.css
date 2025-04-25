@@ -55,6 +55,10 @@
 }
 .avatar-head{
     height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 5px;
 }
 .toggle-head{
     line-height: 40px;
@@ -475,3 +479,154 @@
     font-size: 1.1rem;
     font-weight: 600;
 }
+
+
+#listuserchat{
+    /* height: 200px; */
+    max-height: calc(100% - 80px);
+    overflow: scroll;
+}
+
+.imgavatarchat{
+    aspect-ratio: 1 / 1;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.col45{
+    width: 40px !important;
+}
+.trhoverchat:hover{
+    background-color: #e8e8e8;
+    border-radius: 8px;
+}
+.timechat{
+    color: gray;
+    font-size: 12px;
+    display: block;
+}
+.header-chat-admin{
+    background-color: #bdbdbd;
+    margin-top: 10px;
+    background-color: gray !important;
+    border-radius: 0px !important;
+    color: #fff !important;
+}
+.mainchatadmin{
+    position: relative;
+    height: calc(100% - 100px);
+    margin-bottom: 0px;
+}
+.contentchatadmin{
+    height: calc(80vh - 100px);
+    padding-left: 30px;
+    padding-top: 10px;
+    padding-right: 30px;
+    border: 1px solid #d1d1d1;
+    border-top: 0px;
+    padding-bottom: 70px;
+    overflow-y: hidden;
+}
+.chat-area-footer{
+    position: absolute;
+    width: 100%;
+    bottom: -10px;
+    background-color: #fff;
+}
+.inputchatadmin{
+    width: 80%;
+    float: left;
+    border-radius: 0px;
+    padding: 3px 10px;
+    height: 40px;
+    border-top: 1px solid #d1d1d1;
+    border-left: 1px solid #d1d1d1;
+    border-right: 1px solid #d1d1d1;
+    border-bottom: none;
+}
+.imgchatbtnadmin{
+    width: 8%;
+    margin-left: 2%;
+    cursor: pointer;
+    font-size: 22px;
+}
+.btn-send-message{
+    width: 8%;
+    margin-left: 2%;
+    height: 40px;
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;
+}
+#listchatadmin {
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+}
+.activetrhoverchat{
+    background-color: #e8e8e8;
+    border-radius: 8px;
+}
+#listchatadmin{
+    overflow-y: scroll;
+}
+.centerchatstaff{
+    height: 50px;
+}
+.mychatimg{
+    width: 100px;
+    display: inline-block;
+    align-self: flex-end;
+    margin-top: 20px;
+}
+.adminimg{
+    width: 100px;
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: 20px;
+}
+.hidden{
+    visibility: hidden;
+}
+
+.activetrhoverchat{
+    background-color: #e8e8e8;
+    border-radius: 8px;
+}
+#listuserchat tr{
+    height: 30px;
+}
+.chat-header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+#listchat {
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+}
+.mychat{
+    background-color: #0084ff;
+    color: #fff;
+    max-width: 70%;
+    padding: 3px 7px;
+    border-radius: 10px;
+    display: inline-block;
+    align-self: flex-end;
+}
+.adminchat{
+    background-color: #f0f0f0;
+    max-width: 70%;
+    padding: 3px 7px;
+    border-radius: 10px;
+    display: inline-block;
+    align-self: flex-start;
+}
+
