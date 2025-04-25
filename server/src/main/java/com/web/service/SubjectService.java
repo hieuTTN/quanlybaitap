@@ -10,6 +10,7 @@ import com.web.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
 import java.util.List;
 
 @Component
@@ -26,11 +27,15 @@ public class SubjectService {
             if(subjectRepository.findByCode(subject.getCode()).isPresent()){
                 throw new MessageException("Mã môn học/ lớp đã tồn tại");
             }
+            subject.setCreatedDate(new Date(System.currentTimeMillis()));
         }
         else{
             if(subjectRepository.findByCodeAndId(subject.getCode(), subject.getId()).isPresent()){
                 throw new MessageException("Mã môn học/ lớp đã tồn tại");
             }
+            Subject s = subjectRepository.findById(subject.getId()).get();
+            subject.setCreatedDate(s.getCreatedDate());
+            subject.setUpdatedDate(new Date(System.currentTimeMillis()));
         }
         subject.setTeacher(userUtils.getUserWithAuthority());
         subjectRepository.save(subject);
@@ -48,6 +53,18 @@ public class SubjectService {
     public List<Subject> findAllByTeacher() {
         List<Subject> result = subjectRepository.findByTeacher(userUtils.getUserWithAuthority().getId());
         return result;
+    }
+
+    public Subject lockOrUnlock(Long id){
+        Subject s = subjectRepository.findById(id).get();
+        if(s.getLocked() == false){
+            s.setLocked(true);
+        }
+        else{
+            s.setLocked(false);
+        }
+        subjectRepository.save(s);
+        return s;
     }
 
 }

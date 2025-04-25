@@ -24,6 +24,10 @@ public class Subject {
 
     private Date createdDate;
 
+    private Date updatedDate;
+
+    private Boolean locked;
+
     @ManyToOne
     private User teacher;
 

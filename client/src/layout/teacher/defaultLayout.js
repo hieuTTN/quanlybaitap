@@ -3,6 +3,7 @@ import userimg from '../../assest/images/user.webp';
 import { useState, useEffect } from 'react'
 import React, { createContext, useContext } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import { postMethod} from '../../services/request';
 
 export const HeaderContext = createContext();
 
@@ -18,9 +19,14 @@ function DefaultLayout ({children}){
         return 'text-teacher-left';
     };
     
-
+    const [user, setUser] = useState(null);
     useEffect(()=>{
-    
+        const getUser= async() =>{
+            var response = await postMethod('/api/user/all/user-logged');
+            var result = await response.json();
+            setUser(result)
+        };
+        getUser();
     }, []);
     import('../teacher-student/style.css');
 
@@ -48,13 +54,13 @@ function DefaultLayout ({children}){
                         <div class="in-user-logged">
                             <li class="nav-item dropdown drop-user-nav">
                                 <a class="nav-link dropdown-toggle toggle-head" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src={userimg} class="avatar-head"/> 
-                                    <span>Trần văn nam</span>
+                                    <img src={user?.avatar == null?userimg:user.avatar} class="avatar-head"/> 
+                                    <span>Xin chào: {user?.fullname}</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" href="#">Tài khoản</a></li>
                                     <li><a class="dropdown-item" href="#">Đổi mật khẩu</a></li>
-                                    <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
+                                    <li><a class="dropdown-item" onClick={logout} href="#">Đăng xuất</a></li>
                                 </ul>
                             </li>
                             
@@ -65,7 +71,7 @@ function DefaultLayout ({children}){
         </div>
         <div class="col-1 nav-left-teacher">
             <a className={isActive(["/teacher/blog","/teacher/blog-detail"])} href="/teacher/blog"><i class="fa fa-bell"></i><br/><span>Thông báo</span></a>
-            <a className={isActive(["/teacher/subject"])} href=""><i class="fa fa-book"></i><br/><span>Môn học</span></a>
+            <a className={isActive(["/teacher/subject"])} href="/teacher/subject"><i class="fa fa-book"></i><br/><span>Môn học</span></a>
             <a className={isActive(["/teacher/chat"])} href=""><i class="fa fa-comment"></i><br/><span>Tin nhắn</span></a>
             <a className={isActive(["/teacher/baitap"])} href=""><i class="fa fa-file"></i><br/><span>Bài tập</span></a>
             <a class="text-teacher-left" href=""><i class="fa fa-sign-out"></i><br/><span>Đăng xuất</span></a>

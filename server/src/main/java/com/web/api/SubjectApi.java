@@ -46,4 +46,10 @@ public class SubjectApi {
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
+    @PostMapping("/teacher/lock-unlock")
+    public ResponseEntity<?> lockOrUnlock(@RequestParam("id") Long id){
+        Subject result = subjectService.lockOrUnlock(id);
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
 }

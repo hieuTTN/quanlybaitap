@@ -167,7 +167,7 @@ public class UserApi {
     }
 
 
-    @PostMapping("/user/user-logged")
+    @PostMapping("/all/user-logged")
     public ResponseEntity<?> inforLogged()  {
         return new ResponseEntity<>(userUtils.getUserWithAuthority(),HttpStatus.OK);
     }

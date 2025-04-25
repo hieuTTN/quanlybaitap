@@ -13,6 +13,7 @@ async function handleRegis(event) {
     }
     const payload = {
         email: event.target.elements.email.value,
+        code: event.target.elements.code.value,
         password: event.target.elements.password.value,
         fullname: event.target.elements.fullname.value,
         phone: event.target.elements.phone.value,
@@ -44,6 +45,8 @@ function regisPage(){
                     <form onSubmit={handleRegis} autocomplete="off">
                         <label class="lbform">Email</label>
                         <input required name='email' class="inputlogin"/>
+                        <label class="lbform">Mã sinh viên</label>
+                        <input required name='code' class="inputlogin"/>
                         <label class="lbform">Họ tên</label>
                         <input required name='fullname' class="inputlogin"/>
                         <label class="lbform">Số điện thoại</label>

@@ -51,4 +51,12 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "JOIN chat c ON (c.sender = u.id OR c.receiver = u.id)\n" +
             "WHERE (?1 IN (c.sender, c.receiver)) AND u.id != ?1 and u.email like ?2", nativeQuery = true)
     public Set<User> getAllUserChat(Long myUserId, String param);
+
+
+    @Query(value = "SELECT u.*\n" +
+            "FROM users u\n" +
+            "LEFT JOIN subject_student st \n" +
+            "ON st.user_id = u.id AND st.subject_id = 1\n" +
+            "WHERE st.user_id IS NULL and u.authority_name = 'ROLE_STUDENT' and (u.code like ?1 or u.email like ?1)", nativeQuery = true)
+    List<User> userNotJoin(String param);
 }
