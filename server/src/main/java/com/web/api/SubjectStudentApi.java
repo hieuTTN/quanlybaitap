@@ -1,6 +1,7 @@
 package com.web.api;
 
 import com.web.entity.Subject;
+import com.web.entity.SubjectStudent;
 import com.web.entity.User;
 import com.web.service.SubjectService;
 import com.web.service.SubjectStudentService;
@@ -20,8 +21,14 @@ public class SubjectStudentApi {
     private SubjectStudentService subjectStudentService;
 
     @GetMapping("/teacher/student-not-join")
-    public ResponseEntity<?> studentNotJoin(@RequestParam String param){
-        List<User> result = subjectStudentService.findStudent(param);
+    public ResponseEntity<?> studentNotJoin(@RequestParam String param, @RequestParam Long subjectId){
+        List<User> result = subjectStudentService.findStudent(subjectId,param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/teacher/add-student")
+    public ResponseEntity<?> addStudent(@RequestParam Long subjectId, @RequestParam Long userId){
+        SubjectStudent result = subjectStudentService.addByTeacher(userId, subjectId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

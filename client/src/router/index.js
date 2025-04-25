@@ -22,6 +22,7 @@ import datLaiMatKhauPage from '../pages/public/datlaimatkhau'
 import TinTuc from '../pages/teacher/blog'
 import TinTucDetail from '../pages/teacher/blogdetail'
 import SubjectTeacher from '../pages/teacher/subject'
+import AccountTeacher from '../pages/teacher/account'
 
 
 const publicRoutes = [
@@ -37,6 +38,7 @@ const teacherRoutes = [
     { path: "/teacher/blog", component: TinTuc, layout: layoutTeacher },
     { path: "/teacher/blog-detail", component: TinTucDetail, layout: layoutTeacher },
     { path: "/teacher/subject", component: SubjectTeacher, layout: layoutTeacher },
+    { path: "/teacher/account", component: AccountTeacher, layout: layoutTeacher },
 ];
 
 

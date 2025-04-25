@@ -53,7 +53,7 @@ function SubjectTeacher(){
     };
 
     const searchStudent= async(e) =>{
-        var response = await getMethod('/api/subject-student/teacher/student-not-join?param='+e.value);
+        var response = await getMethod('/api/subject-student/teacher/student-not-join?param='+e.value+'&subjectId='+subject.id);
         var result = await response.json();
         console.log(result);
         
@@ -76,6 +76,20 @@ function SubjectTeacher(){
         if (response.status < 300) {
             toast.success("Thành công");
             getSubject();
+        } else {
+            toast.error("Thất bại");
+        }
+    }
+
+    async function addStudent(e,userId) {
+        var con = window.confirm("Xác nhận thêm sinh viên vào môn học này?");
+        if (con == false) {
+            return;
+        }
+        const response = await postMethod('/api/subject-student/teacher/add-student?subjectId=' + subject.id+'&userId='+userId)
+        if (response.status < 300) {
+            toast.success("Thành công");
+            e.style.display = 'none';
         } else {
             toast.error("Thất bại");
         }
@@ -138,7 +152,7 @@ function SubjectTeacher(){
                         <div class="modal-body">
                             <form onSubmit={saveSubject} method='post' id="formadd">
                                 <input type='hidden' name='id' defaultValue={subject?.id}/>
-                                <label class="label-content">Mã môn học(sinh viên dùng để tham gia lớp)</label>
+                                <label class="label-content">Mã gia nhập(sinh viên dùng để tham gia lớp)</label>
                                 <input class="form-control" name="code" defaultValue={subject?.code}/>
                                 <label class="label-content">Tên môn học</label>
                                 <input class="form-control" name="subjectname" defaultValue={subject?.name}/>
@@ -188,11 +202,16 @@ function SubjectTeacher(){
                                             <span className='emailsinhvien'>{item.email}</span>
                                         </td>
                                         <td className='tdthemsinhvien'>
-                                            <button class="btn-primary"><i class="fa fa-plus"></i></button>
+                                            <button onClick={(e)=>addStudent(e.target, item.id)} class="btn-primary"><i class="fa fa-plus"></i></button>
                                         </td>
                                     </tr>
                                 </table>
                             }))}
+                            {students.length === 0 && (
+                                <div className="text-center mt-3" style={{ color: '#888' }}>
+                                    Không có sinh viên nào
+                                </div>
+                            )}
                             </div>
                         </div>
                         <div class="modal-footer">

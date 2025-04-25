@@ -6,7 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SubjectStudentRepository extends JpaRepository<SubjectStudent, Long> {
 
+    @Query("select s from SubjectStudent s where s.subject.id = ?1 and s.user.id = ?2 and s.accepted = true")
+    Optional<SubjectStudent> findBySubjectAndUser(Long subjectId, Long userId);
+
+    @Query("select s from SubjectStudent s where s.subject.id = ?1 and s.user.id = ?2 and s.accepted = false")
+    Optional<SubjectStudent> findBySubjectAndUserNotAccept(Long subjectId, Long userId);
 }

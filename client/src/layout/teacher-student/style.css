@@ -457,3 +457,21 @@
     color: #fff;
     border-radius: 8px;
 }
+.img-100{
+    width: 100%;
+}
+.headeraccount {
+    padding: 15px 20px 10px 20px;
+    border-bottom: 2px solid #f5f5f0;
+    margin-bottom: 20px;
+    min-height: 60px;
+    width: 100%;
+    background-color: #a6a6a6;
+    color: #fff;
+}
+.fontyel {
+    color: #fcaf17 !important;
+    font-family: 'SVN-Gilroy Bold';
+    font-size: 1.1rem;
+    font-weight: 600;
+}

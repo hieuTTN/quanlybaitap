@@ -56,7 +56,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query(value = "SELECT u.*\n" +
             "FROM users u\n" +
             "LEFT JOIN subject_student st \n" +
-            "ON st.user_id = u.id AND st.subject_id = 1\n" +
-            "WHERE st.user_id IS NULL and u.authority_name = 'ROLE_STUDENT' and (u.code like ?1 or u.email like ?1)", nativeQuery = true)
-    List<User> userNotJoin(String param);
+            "ON st.user_id = u.id AND st.subject_id = ?1\n" +
+            "WHERE st.user_id IS NULL and u.authority_name = 'ROLE_STUDENT' and (u.code like ?2 or u.email like ?2)", nativeQuery = true)
+    List<User> userNotJoin(Long subjectId, String param);
 }

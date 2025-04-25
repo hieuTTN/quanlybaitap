@@ -158,9 +158,9 @@ public class UserService {
 
     public void changePass(String oldPass, String newPass) {
         User user = userUtils.getUserWithAuthority();
-        if (user.getUserType().equals(UserType.GOOGLE)) {
-            throw new MessageException("Xin lỗi, chức năng này không hỗ trợ đăng nhập bằng google");
-        }
+//        if (user.getUserType().equals(UserType.GOOGLE)) {
+//            throw new MessageException("Xin lỗi, chức năng này không hỗ trợ đăng nhập bằng google");
+//        }
 //        if(isValidPassword(newPass) == false){
 //            throw new MessageException("Mật khẩu phải có ít nhất 1 chữ hoa, ký tự đặc biệt và chữ viết thường");
 //        }
@@ -172,7 +172,7 @@ public class UserService {
             userRepository.save(user);
         }
         else{
-            throw new MessageException("Invalid password", 500);
+            throw new MessageException("Mật khẩu không chính xác", 500);
         }
     }
 

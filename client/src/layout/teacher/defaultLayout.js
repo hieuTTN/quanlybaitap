@@ -74,6 +74,7 @@ function DefaultLayout ({children}){
             <a className={isActive(["/teacher/subject"])} href="/teacher/subject"><i class="fa fa-book"></i><br/><span>Môn học</span></a>
             <a className={isActive(["/teacher/chat"])} href=""><i class="fa fa-comment"></i><br/><span>Tin nhắn</span></a>
             <a className={isActive(["/teacher/baitap"])} href=""><i class="fa fa-file"></i><br/><span>Bài tập</span></a>
+            <a className={isActive(["/teacher/account"])} href="/teacher/account"><i class="fa fa-user"></i><br/><span>Tài khoản</span></a>
             <a class="text-teacher-left" href=""><i class="fa fa-sign-out"></i><br/><span>Đăng xuất</span></a>
         </div>
         <div class="col-11">
