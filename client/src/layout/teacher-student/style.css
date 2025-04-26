@@ -642,3 +642,131 @@
     display: block;
     text-align: center;
 }
+.tablediv{
+    margin-top: 15px;
+    border: 1px solid #e3e3e3;
+    -webkit-box-shadow: 0 0 10px #d4d4d4;
+        box-shadow: 0 0 10px #d4d4d4;
+}
+.headertable{
+    /* background-color: #fafafa; */
+    padding: 7px 20px;
+    border-bottom: 1px solid #e6e6e6;
+}
+.lbtable{
+    color: #5733dd;
+    font-weight: 500;
+}
+.divcontenttable{
+    background: #fff;
+    padding: 17px 20px;
+    font-size: 13px;
+}
+.deletebtn{
+    color: #5733dd;
+    cursor: pointer;
+    font-weight: bold;
+}
+.dopmenu li a{
+    color: #000 !important;
+    margin-top: 10px !important;
+}
+.headertable{
+    position: relative;
+}
+.btntableheader{
+    position: absolute;
+    right: 20px;
+    height: 25px;
+    font-size: 13px;
+    border: none;
+    background: #5733dd;
+    color: #fff;
+    border-radius: 5px;
+}
+.lb-form{
+    display: block;
+    margin-top: 10px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.edit-btn, .delete-btn {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.edit-btn {
+    background-color: #f39c12;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+    color: white;
+}
+.imgadmin{
+    width: 100px;
+}
+.imagestudentlist{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.date-header {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #333;
+}
+.task-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.task-info {
+    display: flex;
+    flex-direction: column;
+}
+.task-title {
+    font-weight: 500;
+    font-size: 16px;
+}
+.task-submitted {
+    font-size: 13px;
+    color: #777;
+}
+.badge-success {
+    background-color: #d4edda;
+    color: #155724;
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin-right: 10px;
+}
+.badge-error {
+    background-color: #d4edda;
+    color: red;
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin-right: 10px;
+}
+.badge-feedback {
+    background-color: #cce5ff;
+    color: #004085;
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 15px;
+}

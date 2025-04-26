@@ -9,6 +9,9 @@ import Box from '@mui/material/Box';
 import * as React from 'react';
 import {toast } from 'react-toastify';
 import Swal from 'sweetalert2'
+import StudentList from './studentlist';
+import ListChoDuyet from './choduyet';
+import BaiTapList from './baitaplist';
 
 function SubjectDetailTeacher(){
    const [subject, setSubject] = useState(null);
@@ -44,6 +47,7 @@ function SubjectDetailTeacher(){
                 <Typography component="div" variant="body2" sx={{ whiteSpace: 'normal', wordWrap: 'break-word', width: '100%' }}>
                     <img src={subject?.image} className='imgsubjectdetail'/>
                     <span className='namesubjectdetail'>{subject?.code} - {subject?.name}</span>
+                    <hr/>
                 </Typography>
                 <Tab label="Thông tin chung" {...a11yProps(0)} />
                 <Tab label="Sinh viên" {...a11yProps(1)} />
@@ -55,10 +59,13 @@ function SubjectDetailTeacher(){
                 heheh
             </TabPanel>
             <TabPanel value={value} index={2} style={{width:"100%"}}>
+                <StudentList subject={subject}/>
             </TabPanel>
             <TabPanel value={value} index={3} style={{width:"100%"}}>
+                <BaiTapList subject={subject}/>
             </TabPanel>
             <TabPanel value={value} index={4} style={{width:"100%"}}>
+                <ListChoDuyet subject={subject}/>
             </TabPanel>
             <TabPanel value={value} index={5} style={{width:"100%"}}>
             </TabPanel>

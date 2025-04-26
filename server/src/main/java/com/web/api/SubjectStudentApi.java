@@ -6,6 +6,8 @@ import com.web.entity.User;
 import com.web.service.SubjectService;
 import com.web.service.SubjectStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +50,29 @@ public class SubjectStudentApi {
     public ResponseEntity<?> cancel(@RequestParam Long id){
         subjectStudentService.cancelRequest(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/teacher/request")
+    public ResponseEntity<?> waitRequest(@RequestParam Long subjectId, Pageable pageable){
+        Page<SubjectStudent> result = subjectStudentService.waitRequest(subjectId, pageable);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/teacher/all-student")
+    public ResponseEntity<?> allStudent(@RequestParam Long subjectId, Pageable pageable, @RequestParam(required = false) String search){
+        Page<SubjectStudent> result = subjectStudentService.allStudent(subjectId, pageable, search);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/teacher/delete")
+    public ResponseEntity<?> delete(@RequestParam Long id){
+        subjectStudentService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/teacher/accept")
+    public ResponseEntity<?> accept(@RequestParam Long id){
+        SubjectStudent result = subjectStudentService.accept(id);
+        return new ResponseEntity<>(result,HttpStatus.OK);
     }
 }

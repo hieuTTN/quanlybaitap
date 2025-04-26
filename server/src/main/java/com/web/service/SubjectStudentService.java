@@ -12,6 +12,8 @@ import com.web.repository.UserRepository;
 import com.web.utils.MailService;
 import com.web.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import javax.swing.text.html.Option;
@@ -105,7 +107,33 @@ public class SubjectStudentService {
         return list;
     }
 
+    public Page<SubjectStudent> waitRequest(Long subjectId, Pageable pageable){
+        Page<SubjectStudent> list = subjectStudentRepository.requestBySubject(subjectId, pageable);
+        return list;
+    }
+
+    public Page<SubjectStudent> allStudent(Long subjectId, Pageable pageable,String search){
+        if(search == null){
+            search = "";
+        }
+        search = "%"+search+"%";
+        Page<SubjectStudent> list = subjectStudentRepository.allStudent(subjectId,search,pageable);
+        return list;
+    }
+
     public void cancelRequest(Long id){
         subjectStudentRepository.deleteById(id);
+    }
+
+    public void delete(Long id){
+        subjectStudentRepository.deleteById(id);
+    }
+
+    public SubjectStudent accept(Long id){
+        SubjectStudent s = subjectStudentRepository.findById(id).get();
+        s.setAccepted(true);
+        s.setJoinDate(LocalDateTime.now());
+        subjectStudentRepository.save(s);
+        return s;
     }
 }
