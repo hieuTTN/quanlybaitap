@@ -20,6 +20,7 @@ function DefaultLayout ({children}){
     };
     
     const [user, setUser] = useState(null);
+     const [isCssLoaded, setCssLoaded] = useState(false);
     useEffect(()=>{
         const getUser= async() =>{
             var response = await postMethod('/api/user/all/user-logged');
@@ -27,8 +28,12 @@ function DefaultLayout ({children}){
             setUser(result)
         };
         getUser();
+        import('../teacher-student/style.css').then(() => setCssLoaded(true));
     }, []);
-    import('../teacher-student/style.css');
+
+    if (!isCssLoaded) {
+        return <></>
+    }
 
     function logout(){
         localStorage.removeItem("token");

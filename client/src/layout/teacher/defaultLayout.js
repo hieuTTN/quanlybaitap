@@ -3,7 +3,10 @@ import userimg from '../../assest/images/user.webp';
 import { useState, useEffect } from 'react'
 import React, { createContext, useContext } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { postMethod} from '../../services/request';
+import { Client } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
+import { getMethod, postMethod, urlGlobal } from '../../services/request';
+import { toast } from 'react-toastify';
 
 export const HeaderContext = createContext();
 
@@ -20,15 +23,51 @@ function DefaultLayout ({children}){
     };
     
     const [user, setUser] = useState(null);
+    const [isCssLoaded, setCssLoaded] = useState(false);
+    const [client, setClient] = useState(null);
+
     useEffect(()=>{
+        import('../teacher-student/style.css').then(() => setCssLoaded(true));
         const getUser= async() =>{
             var response = await postMethod('/api/user/all/user-logged');
             var result = await response.json();
             setUser(result)
         };
         getUser();
+
+
+        var userlc = localStorage.getItem("user")
+        var email = JSON.parse(userlc).email
+        var uls = urlGlobal();
+        const sock = new SockJS(uls+'/notification-admin');
+        const stompClient = new Client({
+        webSocketFactory: () => sock,
+        onConnect: () => {
+            console.log("WebSocket connected successfully!");
+            stompClient.subscribe('/users/queue/notification', (msg) => {
+                var title = msg.headers.title
+                var content = msg.headers.content
+                var link = msg.headers.link
+                toast.info(content, {
+                    autoClose: false,
+                });
+            });
+        },
+        connectHeaders: {
+            username: email 
+        }
+        });
+        stompClient.activate();
+        setClient(stompClient);
+
+        return () => {
+            stompClient.deactivate();
+        };
+
     }, []);
-    import('../teacher-student/style.css');
+    if (!isCssLoaded) {
+        return <></>
+    }
 
     function logout(){
         localStorage.removeItem("token");
@@ -71,7 +110,7 @@ function DefaultLayout ({children}){
         </div>
         <div class="col-1 nav-left-teacher">
             <a className={isActive(["/teacher/blog","/teacher/blog-detail"])} href="/teacher/blog"><i class="fa fa-bell"></i><br/><span>Thông báo</span></a>
-            <a className={isActive(["/teacher/subject"])} href="/teacher/subject"><i class="fa fa-book"></i><br/><span>Môn học</span></a>
+            <a className={isActive(["/teacher/subject","/teacher/subject-detail"])} href="/teacher/subject"><i class="fa fa-book"></i><br/><span>Môn học</span></a>
             <a className={isActive(["/teacher/chat"])} href="/teacher/chat"><i class="fa fa-comment"></i><br/><span>Tin nhắn</span></a>
             <a className={isActive(["/teacher/baitap"])} href=""><i class="fa fa-file"></i><br/><span>Bài tập</span></a>
             <a className={isActive(["/teacher/account"])} href="/teacher/account"><i class="fa fa-user"></i><br/><span>Tài khoản</span></a>

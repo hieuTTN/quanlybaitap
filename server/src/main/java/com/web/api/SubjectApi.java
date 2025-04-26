@@ -40,9 +40,21 @@ public class SubjectApi {
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
+    @GetMapping("/student/my-subject")
+    public ResponseEntity<?> mySubjectStudent(){
+        List<Subject> result = subjectService.findAllByStudent();
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
     @GetMapping("/all/findById")
     public ResponseEntity<?> findById(@RequestParam("id") Long id){
         Subject result = subjectService.findById(id);
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
+    @GetMapping("/student/subject-not-join")
+    public ResponseEntity<?> subjectNotJoin(@RequestParam String param){
+        List<Subject> result = subjectService.subjectNotJoin(param);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 

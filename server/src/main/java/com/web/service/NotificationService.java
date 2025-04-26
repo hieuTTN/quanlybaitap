@@ -51,6 +51,23 @@ public class NotificationService {
         }
     }
 
+
+    public void saveSingle(String title, String link, String message, Long userId){
+        User user = userRepository.findById(userId).get();
+        Map<String, Object> map = new HashMap<>();
+        map.put("title", title);
+        map.put("content", message);
+        map.put("link", link);
+        Notification notification = new Notification();
+        notification.setCreatedDate(LocalDateTime.now());
+        notification.setIsRead(false);
+        notification.setLink(link);
+        notification.setTitle(title);
+        notification.setUser(user);
+        notificationRepository.save(notification);
+        simpMessagingTemplate.convertAndSendToUser(user.getEmail(), "/queue/notification", message, map);
+    }
+
     public List<Notification> top5NotificationNotIsReadByUser(){
         User user = userUtils.getUserWithAuthority();
         List<Notification> list = notificationRepository.top5NotificationNotIsReadByUser(user.getId());

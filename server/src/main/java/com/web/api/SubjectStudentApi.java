@@ -31,4 +31,22 @@ public class SubjectStudentApi {
         SubjectStudent result = subjectStudentService.addByTeacher(userId, subjectId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PostMapping("/student/send-request")
+    public ResponseEntity<?> sendRequest(@RequestParam Long subjectId){
+        SubjectStudent result = subjectStudentService.sendRequest(subjectId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/student/my-request")
+    public ResponseEntity<?> myRequest(){
+        List<SubjectStudent> result = subjectStudentService.myRequest();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/student/cancel-request")
+    public ResponseEntity<?> cancel(@RequestParam Long id){
+        subjectStudentService.cancelRequest(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

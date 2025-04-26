@@ -124,7 +124,7 @@ function SubjectTeacher(){
                 {items.map((item=>{
                     return <div class="col-md-3">
                         <div class="course-card border">
-                          <a href="" class="course-header">
+                          <a href={"/teacher/subject-detail?id="+item.id} class="course-header">
                             <img src={item.image} class="course-icon" alt="Java"/>
                             <span class="card-title">{item.code}<br/>{item.name}</span>
                             <span class="ellipsis">⋮</span>

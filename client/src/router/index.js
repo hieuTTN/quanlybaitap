@@ -25,12 +25,14 @@ import TinTucDetail from '../pages/teacher/blogdetail'
 import SubjectTeacher from '../pages/teacher/subject'
 import AccountTeacher from '../pages/teacher/account'
 import ChatTeacher from '../pages/teacher/chat'
+import SubjectDetailTeacher from '../pages/teacher/subjectdetail'
 
 //student
 import TinTucStudent from '../pages/student/blog'
 import TinTucDetailStudent from '../pages/student/blogdetail'
 import AccountStudent from '../pages/student/account'
 import ChatStudent from '../pages/student/chat'
+import SubjectStudent from '../pages/student/subject'
 
 
 const publicRoutes = [
@@ -48,6 +50,7 @@ const teacherRoutes = [
     { path: "/teacher/subject", component: SubjectTeacher, layout: layoutTeacher },
     { path: "/teacher/account", component: AccountTeacher, layout: layoutTeacher },
     { path: "/teacher/chat", component: ChatTeacher, layout: layoutTeacher },
+    { path: "/teacher/subject-detail", component: SubjectDetailTeacher, layout: layoutTeacher },
 ];
 
 const studentRoutes = [
@@ -55,6 +58,7 @@ const studentRoutes = [
     { path: "/student/blog-detail", component: TinTucDetailStudent, layout: layoutStudent },
     { path: "/student/account", component: AccountStudent, layout: layoutStudent },
     { path: "/student/chat", component: ChatStudent, layout: layoutStudent },
+    { path: "/student/subject", component: SubjectStudent, layout: layoutStudent },
 ];
 
 

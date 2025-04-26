@@ -3,9 +3,11 @@ package com.web.service;
 import com.web.dto.response.CategoryDto;
 import com.web.entity.Category;
 import com.web.entity.Subject;
+import com.web.entity.User;
 import com.web.exception.MessageException;
 import com.web.repository.CategoryRepository;
 import com.web.repository.SubjectRepository;
+import com.web.repository.SubjectStudentRepository;
 import com.web.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +20,9 @@ public class SubjectService {
 
     @Autowired
     private SubjectRepository subjectRepository;
+
+    @Autowired
+    private SubjectStudentRepository subjectStudentRepository;
 
     @Autowired
     private UserUtils userUtils;
@@ -55,6 +60,11 @@ public class SubjectService {
         return result;
     }
 
+    public List<Subject> findAllByStudent() {
+        List<Subject> result = subjectRepository.findByStudent(userUtils.getUserWithAuthority().getId());
+        return result;
+    }
+
     public Subject lockOrUnlock(Long id){
         Subject s = subjectRepository.findById(id).get();
         if(s.getLocked() == false){
@@ -67,4 +77,15 @@ public class SubjectService {
         return s;
     }
 
+    public List<Subject> subjectNotJoin(String param) {
+        List<Subject> list = subjectRepository.findByCodeStd(param);
+        User u = userUtils.getUserWithAuthority();
+        for(Subject s : list){
+            if(subjectStudentRepository.findBySubjectAndUser(s.getId(),u.getId()).isPresent()){
+                list.remove(s);
+                break;
+            }
+        }
+        return list;
+    }
 }

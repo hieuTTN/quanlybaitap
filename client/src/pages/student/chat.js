@@ -204,7 +204,7 @@ function ChatStudent(){
                    {itemUser.map((item, index)=>{
                        return <tr className={email === item.user.email?'pointer trhoverchat activetrhoverchat':'pointer trhoverchat'} onClick={()=>loadMessage(item.user)}>
                            <td class="col45" onClick={()=>loadMessage(item.user)}><img src={item.user.avatar == null?avatar:item.user.avatar} class="imgavatarchat"/></td>
-                           <td onClick={()=>loadMessage(item.user)}>{item.user.email}<span class="timechat">{item.timestamp}</span></td>
+                           <td onClick={()=>loadMessage(item.user)}>Giáo viên: {item.user.fullname}<span class="timechat">{item.timestamp}</span></td>
                        </tr>
                    })}
                    </tbody>

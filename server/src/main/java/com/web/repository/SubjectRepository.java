@@ -17,4 +17,10 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
 
     @Query("select s from Subject s where s.teacher.id = ?1")
     List<Subject> findByTeacher(Long id);
+
+    @Query("select s.subject from SubjectStudent s where s.user.id = ?1 and s.accepted = true")
+    List<Subject> findByStudent(Long id);
+
+    @Query("select s from Subject s where s.code = ?1")
+    List<Subject> findByCodeStd(String code);
 }

@@ -10,6 +10,7 @@ import com.web.repository.SubjectRepository;
 import com.web.repository.SubjectStudentRepository;
 import com.web.repository.UserRepository;
 import com.web.utils.MailService;
+import com.web.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +33,13 @@ public class SubjectStudentService {
     private SubjectRepository subjectRepository;
 
     @Autowired
+    private UserUtils userUtils;
+
+    @Autowired
     private MailService mailService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     public List<User> findStudent(Long subjectId,String param) {
         if(param.equals("")){
@@ -67,5 +74,38 @@ public class SubjectStudentService {
                         "Người thêm: Giảng viên "+s.getTeacher().getFullname()
                 , false, true);
         return subjectStudent;
+    }
+
+    public SubjectStudent sendRequest(Long subjectId) {
+        User u = userUtils.getUserWithAuthority();
+        Optional<SubjectStudent> checkSend = subjectStudentRepository.findBySubjectAndUserNotAccept(subjectId, u.getId());
+        if(checkSend.isPresent()){
+            throw new MessageException("Bạn đã gửi yêu cầu, hãy chờ giảng viên đồng ý");
+        }
+        Optional<SubjectStudent> checkSends = subjectStudentRepository.findBySubjectAndUser(subjectId, u.getId());
+        if(checkSends.isPresent()){
+            throw new MessageException("Bạn đã tham gia vào môn này");
+        }
+        Subject subject = subjectRepository.findById(subjectId).get();
+        SubjectStudent s = new SubjectStudent();
+        s.setSubject(subject);
+        s.setAccepted(false);
+        s.setUser(u);
+        subjectStudentRepository.save(s);
+        notificationService.saveSingle("Có yêu cầu tham gia môn học","",
+                "Sinh viên "+u.getFullname()+" yêu cầu tham gia môn học "+subject.getName()+" vào lúc "+LocalDateTime.now().toString(),
+                subject.getTeacher().getId());
+        mailService.sendEmail(subject.getTeacher().getEmail(),"Có yêu cầu tham gia môn học","Sinh viên "+u.getFullname()+" yêu cầu tham gia môn học "+subject.getName()+" vào lúc "+LocalDateTime.now().toString(),
+                false, true);
+        return s;
+    }
+
+    public List<SubjectStudent> myRequest(){
+        List<SubjectStudent> list = subjectStudentRepository.myRequest(userUtils.getUserWithAuthority().getId());
+        return list;
+    }
+
+    public void cancelRequest(Long id){
+        subjectStudentRepository.deleteById(id);
     }
 }

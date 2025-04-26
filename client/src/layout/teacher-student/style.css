@@ -432,7 +432,6 @@
 }
 .tdimgsearch{
     width: 10%;
-    background-color: red;
 }
 .imgstudent-search{
     width: 100%;
@@ -629,4 +628,17 @@
     display: inline-block;
     align-self: flex-start;
 }
-
+.btnjoinleft{
+    margin-right: 10px;
+}
+.imgsubjectdetail{
+    width: 80px;
+    display: block;
+    margin-left: 40px;
+}
+.namesubjectdetail{
+    font-size: 17px;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+}
