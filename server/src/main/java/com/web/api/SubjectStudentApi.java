@@ -64,6 +64,12 @@ public class SubjectStudentApi {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/student/all-student")
+    public ResponseEntity<?> allStudentByStudent(@RequestParam Long subjectId, Pageable pageable, @RequestParam(required = false) String search){
+        Page<SubjectStudent> result = subjectStudentService.allStudent(subjectId, pageable, search);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @DeleteMapping("/teacher/delete")
     public ResponseEntity<?> delete(@RequestParam Long id){
         subjectStudentService.delete(id);

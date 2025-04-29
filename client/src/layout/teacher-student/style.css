@@ -782,6 +782,7 @@
     border: 1px solid #bfbfbf;
     border-radius: 8px;
     padding: 20px 30px;
+    overflow-y: scroll;
 }
 .chatboxroom{
     position: absolute;
@@ -801,3 +802,61 @@
     left: 50%;
     transform: translateX(-50%);
 }
+
+
+
+  .chat-message {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  .chat-message.my-message {
+    justify-content: end;
+  }
+  .chat-bubble {
+    border-radius: 10px;
+    padding: 5px 8px;
+    /* max-width: 70%; */
+  }
+  .my-message .chat-bubble {
+    background-color: #d1e7dd;
+    text-align: right;
+  }
+  .other-message .chat-bubble {
+    background-color: #fff;
+    text-align: left;
+  }
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: inline-block;
+    text-align: center;
+    line-height: 36px;
+    font-weight: bold;
+    color: #fff;
+    margin-right: 0px;
+  }
+  .my-message .avatar {
+    margin-left: 10px;
+    margin-right: 0;
+    order: 2;
+  }
+  .timestamp {
+    font-size: 0.8rem;
+    color: gray;
+    margin-top: 5px;
+  }
+  .name {
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+  .contentmymess{
+    text-align: left;
+  }
+  .avatarmess{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+  }

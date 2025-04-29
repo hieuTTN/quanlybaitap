@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate';
 import {toast } from 'react-toastify';
 import Select from 'react-select';
 import {getMethod, urlGlobal, postMethod, uploadSingleFileFormData} from '../../services/request'
+import {formatTimestamp} from '../../services/dateservice'
 import Swal from 'sweetalert2'
 import { Editor } from '@tinymce/tinymce-react';
 import React, { useRef } from 'react';
@@ -14,16 +15,25 @@ import SockJS from 'sockjs-client';
 function ChatRoom({ subject }){
     const editorRef = useRef(null);
     const [contentchat, setContentChat] = useState('');
-    const [message, setMessage] = useState('');
-    const [chatMessages, setChatMessages] = useState([]);
+    const [message, setMessage] = useState([]);
     const [client, setClient] = useState(null);
-    const [itemUser, setItemUser] = useState([]);
-    const [itemChat, setItemChat] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPage, setTotalPage] = useState(0);
     const [user, setUser] = useState(null);
-    const [email, setEmail] = useState(null);
-
     useEffect(()=>{
-
+        const getUser= async() =>{
+            var response = await postMethod('/api/user/all/user-logged');
+            var result = await response.json();
+            setUser(result)
+        };
+        getUser();
+        getMessage();
+        const listchat = document.getElementById('listchat');
+        if (listchat) {
+            requestAnimationFrame(() => {
+                listchat.scrollTop = listchat.scrollHeight;
+            });
+        }
         var userlc = localStorage.getItem("user")
         var email = JSON.parse(userlc).email
         var url = urlGlobal();
@@ -31,12 +41,11 @@ function ChatRoom({ subject }){
         const stompClient = new Client({
         webSocketFactory: () => sock,
         onConnect: () => {
-            toast.success("Kết nối socket chat nhóm thành công!");
-            
             stompClient.subscribe('/topic/room/'+subject.id, (msg) => {
                 var result = JSON.parse(msg.body);
-                console.log(result);
-                
+                // if(result.sender.id != user.id){
+                    appendMess(result)
+                // }
             });
         },
         connectHeaders: {
@@ -45,11 +54,18 @@ function ChatRoom({ subject }){
         });
         stompClient.activate();
         setClient(stompClient);
-    
         return () => {
             stompClient.deactivate();
         };    
     }, []);
+
+    const getMessage= async() =>{
+        var response = await getMethod(`/api/chat-room/all/chat-by-subject-page?size=10&subjectId=${subject.id}&page=${currentPage}`);
+        var result = await response.json();
+        setMessage(result.content)
+        setTotalPage(result.totalPages)
+        setCurrentPage(currentPage + 1);
+    };
 
     function handleEditorChange(content, editor) {
         setContentChat(content);
@@ -65,23 +81,66 @@ function ChatRoom({ subject }){
             body: contentchat,
         });
         append();
+        if (editorRef.current) {
+            editorRef.current.setContent('');
+        }
     };
 
     function append() {
-        const newChatElement = document.createElement('p'); 
-        newChatElement.className = "mychat";
-        newChatElement.innerHTML = contentchat
-  
-        document.getElementById('listchat').appendChild(newChatElement);
         var scroll_to_bottom = document.getElementById('listchat');
         scroll_to_bottom.scrollTop = scroll_to_bottom.scrollHeight;
         setContentChat('')
     }
-  
+
+    function appendMess(mess){
+        const listchat = document.getElementById('listchat');
+        const isAtBottom = listchat.scrollHeight - listchat.scrollTop === listchat.clientHeight;     
+        // if (isAtBottom == false && mess.sender.id != user.id) {
+        //     toast.info("Có tin nhắn mới")
+        // }
+        setMessage(prev => [...prev, mess]);
+    }
+    
+    const handleScroll = (e) => {
+        const listchat = e.target;
+        const isAtTop = listchat.scrollTop === 0; // Kiểm tra nếu cuộn ở trên cùng
+        if (isAtTop && currentPage < totalPage - 1) {
+            loadMoreMess();
+        }
+    };
+
+    const loadMoreMess= async() =>{
+        var response = await getMethod(`/api/chat-room/all/chat-by-subject-page?size=10&subjectId=${subject.id}&page=${currentPage}`);
+        var result = await response.json();
+        setMessage((prevMessages) => [...result.content, ...prevMessages]);
+        setTotalPage(result.totalPages)
+        setCurrentPage(currentPage + 1);
+    };
 
     return(
         <div class="chatroomdiv">
-            <div class="contentchatroom" id='listchat'>
+            <div onScroll={handleScroll} class="contentchatroom" id='listchat'>
+                {message.map((item, index)=>{
+                    if(item.sender.id == user.id){
+                        return <div class="chat-message my-message">
+                            <div>
+                                <div class="chat-bubble">
+                                    <span class="timestamp">{formatTimestamp(item.createdDate)}</span><span class="name"> Bạn - {item.id}</span>
+                                    <div dangerouslySetInnerHTML={{__html:item.content}} className='contentmymess'></div>
+                                </div>
+                            </div><div class="avatar"><img src={item.sender.avatar} class="avatarmess"/></div>
+                        </div>
+                    }
+                    else{
+                        return <div class="chat-message other-message">
+                            <div class="avatar"><img src={item.sender.avatar} class="avatarmess"/></div>
+                            <div><div class="chat-bubble">
+                                <span class="name">{item.sender.fullname}</span> <span class="timestamp">{formatTimestamp(item.createdDate)}</span>
+                                <div dangerouslySetInnerHTML={{__html:item.content}}></div>
+                            </div></div>
+                        </div>
+                    }
+                })}
 
             </div>
             <div class="chatboxroom">

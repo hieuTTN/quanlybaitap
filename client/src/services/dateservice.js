@@ -12,4 +12,15 @@ function formatDate(dateString) {
     return `${dayOfWeek}, ngày ${day}/${month}/${year}`;
 }
 
-export {formatDate}
+function formatTimestamp(isoDate){
+    const date = new Date(isoDate);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const formatted = `${month}/${day}/${year} ${hours}:${minutes}`;
+    return formatted
+}
+
+export {formatDate, formatTimestamp}

@@ -10,11 +10,10 @@ import * as React from 'react';
 import {toast } from 'react-toastify';
 import Swal from 'sweetalert2'
 import StudentList from './studentlist';
-import ListChoDuyet from './choduyet';
-import BaiTapList from './baitaplist';
-import ChatRoom from './chatroom';
+import BaiTapListStudent from './baitaplist';
+import ChatRoom from '../teacher/chatroom';
 
-function SubjectDetailTeacher(){
+function SubjectDetailStudent(){
    const [subject, setSubject] = useState(null);
    const [value, setValue] = React.useState(1);
     useEffect(()=>{
@@ -52,8 +51,7 @@ function SubjectDetailTeacher(){
                 <Tab label="Đoạn chat chung" {...a11yProps(0)} />
                 <Tab label="Sinh viên" {...a11yProps(1)} />
                 <Tab label="Bài tập" {...a11yProps(2)} />
-                <Tab label="Chờ duyệt" {...a11yProps(3)} />
-                <Tab label="Files" {...a11yProps(4)} />
+                <Tab label="Files" {...a11yProps(3)} />
             </Tabs>
             <TabPanel value={value} index={1} style={{width:"100%"}}>
             {subject && (
@@ -63,12 +61,9 @@ function SubjectDetailTeacher(){
                 <StudentList subject={subject}/>
             </TabPanel>
             <TabPanel value={value} index={3} style={{width:"100%"}}>
-                <BaiTapList subject={subject}/>
+                <BaiTapListStudent subject={subject}/>
             </TabPanel>
             <TabPanel value={value} index={4} style={{width:"100%"}}>
-                <ListChoDuyet subject={subject}/>
-            </TabPanel>
-            <TabPanel value={value} index={5} style={{width:"100%"}}>
             </TabPanel>
         </Box>
         </div>
@@ -107,4 +102,4 @@ function a11yProps(index) {
         'aria-controls': `vertical-tabpanel-${index}`,
     };
 }
-export default SubjectDetailTeacher;
+export default SubjectDetailStudent;

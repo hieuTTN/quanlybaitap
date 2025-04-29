@@ -33,6 +33,7 @@ import TinTucDetailStudent from '../pages/student/blogdetail'
 import AccountStudent from '../pages/student/account'
 import ChatStudent from '../pages/student/chat'
 import SubjectStudent from '../pages/student/subject'
+import SubjectDetailStudent from '../pages/student/subjectdetail'
 
 
 const publicRoutes = [
@@ -59,6 +60,7 @@ const studentRoutes = [
     { path: "/student/account", component: AccountStudent, layout: layoutStudent },
     { path: "/student/chat", component: ChatStudent, layout: layoutStudent },
     { path: "/student/subject", component: SubjectStudent, layout: layoutStudent },
+    { path: "/student/subject-detail", component: SubjectDetailStudent, layout: layoutStudent },
 ];
 
 
