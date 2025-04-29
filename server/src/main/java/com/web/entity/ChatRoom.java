@@ -2,36 +2,28 @@ package com.web.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "chat")
+@Table(name = "chat_room")
 @Getter
 @Setter
-public class Chatting {
+public class ChatRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     private String content;
 
     private Timestamp createdDate;
 
-    private Boolean isFile = false;
-
-    private String fileName;
-
     @ManyToOne
     @JoinColumn(name = "sender")
     private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "receiver")
-    private User receiver;
-
+    private Subject subject;
 }

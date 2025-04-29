@@ -12,6 +12,7 @@ import Swal from 'sweetalert2'
 import StudentList from './studentlist';
 import ListChoDuyet from './choduyet';
 import BaiTapList from './baitaplist';
+import ChatRoom from './chatroom';
 
 function SubjectDetailTeacher(){
    const [subject, setSubject] = useState(null);
@@ -23,7 +24,6 @@ function SubjectDetailTeacher(){
             const response = await getMethod('/api/subject/all/findById?id='+id);
             var result = await response.json();
             console.log(result);
-            
             setSubject(result)
         };
         getSubject();
@@ -56,7 +56,8 @@ function SubjectDetailTeacher(){
                 <Tab label="Files" {...a11yProps(4)} />
             </Tabs>
             <TabPanel value={value} index={1} style={{width:"100%"}}>
-                heheh
+            {subject && (
+                <ChatRoom subject={subject}/>)}
             </TabPanel>
             <TabPanel value={value} index={2} style={{width:"100%"}}>
                 <StudentList subject={subject}/>

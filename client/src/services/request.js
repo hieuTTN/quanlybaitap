@@ -17,6 +17,21 @@ async function uploadSingleFile(filePath) {
     }
 }
 
+async function uploadSingleFileFormData(formData) {
+    var urlUpload = firstUrl+'/api/public/upload-file';
+    const res = await fetch(urlUpload, {
+        method: 'POST',
+        body: formData
+    });
+    if (res.status < 300) {
+        var linkImage = await res.text();
+        return linkImage;
+    }
+    else{
+        return null;
+    }
+}
+
 function urlGlobal(){
     return firstUrl;
 }
@@ -110,4 +125,4 @@ async function deleteMethod(url) {
 
 
 
-export {getMethod,postMethod, uploadSingleFile,uploadMultipleFile,postMethodPayload,deleteMethod,postMethodTextPlan,urlGlobal}
+export {getMethod,postMethod, uploadSingleFile,uploadMultipleFile,postMethodPayload,deleteMethod,postMethodTextPlan,urlGlobal,uploadSingleFileFormData}

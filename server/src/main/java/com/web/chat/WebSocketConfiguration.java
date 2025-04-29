@@ -27,14 +27,20 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
         registry.addEndpoint("/notification-admin")
                 .setAllowedOrigins(urlFrontend)
                 .withSockJS();
+
+        registry.addEndpoint("/chat-room")
+                .setAllowedOrigins(urlFrontend)
+                .withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("queue");
+        registry.enableSimpleBroker("/queue","/topic");
         registry.setApplicationDestinationPrefixes("/app");
         registry.setUserDestinationPrefix("/users");
+
     }
+
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {

@@ -84,7 +84,7 @@ const AdminAddBlog = ()=>{
                                 <input defaultValue={blog==null?'':blog.title} name="title" type="text" class="form-control"/>
                                 <label class="lb-form">Ảnh bài viết</label>
                                 <input id="imgbanner" type="file" class="form-control"/>
-                                <img src={blog == null ? '': blog.image}/>
+                                <img src={blog == null ? '': blog.image} class="imgadmin"/>
                                 <img id="imgpreview" className='imgadmin'/>
                                 <label class="lb-form">Mô tả</label>
                                 <textarea defaultValue={blog==null?'':blog.description} name="description" class="form-control"></textarea>
@@ -95,7 +95,7 @@ const AdminAddBlog = ()=>{
                             </div>
                             <div class="col-md-8 col-sm-12 col-12">
                                 <label class="lb-form lbmotadv">Nội dung bài viết</label>
-                                <Editor name='editor' tinymceScriptSrc={'https://cdn.tiny.cloud/1/f6s0gxhkpepxkws8jawvfwtj0l9lv0xjgq1swbv4lgcy3au3/tinymce/6/tinymce.min.js'}
+                                <Editor name='editor' tinymceScriptSrc={'https://cdn.tiny.cloud/1/xqhz0tu1vx2a47ob4qdhwpyz39c09mrs2mfilfeahlm42vwa/tinymce/6/tinymce.min.js'}
                                         onInit={(evt, editor) => editorRef.current = editor} 
                                         initialValue={blog==null?'':blog.content}
                                         onEditorChange={handleEditorChange}/>

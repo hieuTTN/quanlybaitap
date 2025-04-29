@@ -24,7 +24,10 @@ public class UploadApi {
     @PostMapping("/public/upload-file")
     public String uploadFile(@RequestParam("file") MultipartFile file){
         try {
-            return cloudinaryService.uploadFile(file);
+            System.out.println("upload file");
+            String s = cloudinaryService.uploadFile(file);
+            System.out.println("link "+s);
+            return s;
         } catch (Exception e) {
             e.printStackTrace();
         }

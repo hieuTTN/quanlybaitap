@@ -1,8 +1,12 @@
 package com.web.chat;
 
+import com.web.entity.ChatRoom;
 import com.web.entity.Chatting;
+import com.web.entity.Subject;
 import com.web.entity.User;
 import com.web.repository.ChatRepository;
+import com.web.repository.ChatRoomRepository;
+import com.web.repository.SubjectRepository;
 import com.web.repository.UserRepository;
 import com.web.utils.Contains;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,12 @@ public class MessageController {
 
     @Autowired
     private ChatRepository chatRepository;
+
+    @Autowired
+    private SubjectRepository subjectRepository;
+
+    @Autowired
+    private ChatRoomRepository chatRoomRepository;
 
     @MessageMapping("/hello/{id}")
     public void send(SimpMessageHeaderAccessor sha, @Payload String message,@DestinationVariable String id) {
@@ -75,4 +85,24 @@ public class MessageController {
         map.put("idchat", chatting.getId());
         simpMessagingTemplate.convertAndSendToUser(reciver.getEmail(), "/queue/messages", message,map);
     }
+
+
+    @MessageMapping("/room/{id}")
+    public void sendRoom(SimpMessageHeaderAccessor sha, @Payload String message, @DestinationVariable String id) {
+        System.out.println("sha: "+sha.getUser().getName());
+        System.out.println("payload: "+message);
+        Subject subject = null;
+        if(Long.valueOf(id) > 0){
+            subject = subjectRepository.findById(Long.valueOf(id)).get();
+        }
+        User sender = userRepository.findByUsername(sha.getUser().getName()).get();
+        ChatRoom chatting = new ChatRoom();
+        chatting.setContent(message);
+        chatting.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+        chatting.setSubject(subject);
+        chatting.setSender(sender);
+        chatRoomRepository.save(chatting);
+        simpMessagingTemplate.convertAndSend("/topic/room/"+id, chatting);
+    }
+
 }
