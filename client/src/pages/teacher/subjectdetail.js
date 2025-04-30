@@ -13,10 +13,12 @@ import StudentList from './studentlist';
 import ListChoDuyet from './choduyet';
 import BaiTapList from './baitaplist';
 import ChatRoom from './chatroom';
+import ChiTietBaiTap from './chitietbaitap';
 
 function SubjectDetailTeacher(){
    const [subject, setSubject] = useState(null);
    const [value, setValue] = React.useState(1);
+    const [selectedBaiTap, setSelectedBaiTap] = useState(null);
     useEffect(()=>{
         var uls = new URL(document.URL)
         var id = uls.searchParams.get("id");
@@ -30,6 +32,9 @@ function SubjectDetailTeacher(){
     }, []);
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        if (newValue === 3) {
+            setSelectedBaiTap(null);
+        }
     };
     
 
@@ -63,7 +68,11 @@ function SubjectDetailTeacher(){
                 <StudentList subject={subject}/>
             </TabPanel>
             <TabPanel value={value} index={3} style={{width:"100%"}}>
-                <BaiTapList subject={subject}/>
+                {selectedBaiTap ? (
+                    <ChiTietBaiTap subject={subject} baiTap={selectedBaiTap} onBack={() => setSelectedBaiTap(null)} />
+                ) : (
+                    <BaiTapList subject={subject} onViewDetail={setSelectedBaiTap} />
+                )}
             </TabPanel>
             <TabPanel value={value} index={4} style={{width:"100%"}}>
                 <ListChoDuyet subject={subject}/>
