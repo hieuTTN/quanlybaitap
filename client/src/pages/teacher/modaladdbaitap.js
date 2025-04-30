@@ -46,6 +46,8 @@ function ModalAddBaiTap({ subject, baitap , refreshStudentList  }) {
                 id:subject.id
             },
         }
+        console.log(bt);
+        
         if(bt.id != null){
             var time = event.target.elements.duatime.value.split(":");
             bt.duaTime = time[0]+":"+time[1]

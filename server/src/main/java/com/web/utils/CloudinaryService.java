@@ -21,13 +21,28 @@ public class CloudinaryService {
     public String uploadFile(MultipartFile file) {
         try {
             File uploadedFile = convertMultiPartToFile(file);
-            Map uploadResult = cloudinaryConfig.uploader().upload(uploadedFile, ObjectUtils.emptyMap());
+
+            // Lấy tên gốc (không phần mở rộng) từ file upload
+            String originalFileName = file.getOriginalFilename();
+            String fileNameWithoutExtension = originalFileName != null ? originalFileName.replaceFirst("[.][^.]+$", "") : "default_file_name";
+
+            // Upload với tên chỉ định
+            Map uploadResult = cloudinaryConfig.uploader().upload(
+                    uploadedFile,
+                    ObjectUtils.asMap(
+                            "resource_type", "auto",
+                            "public_id", fileNameWithoutExtension, // có thể bỏ "your_folder/" nếu không cần thư mục
+                            "use_filename", true,
+                            "unique_filename", false // để không thêm chuỗi ngẫu nhiên vào tên
+                    )
+            );
             uploadedFile.delete();
             return uploadResult.get("url").toString();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
 
     public File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());

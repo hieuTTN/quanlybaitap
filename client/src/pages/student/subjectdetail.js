@@ -12,10 +12,13 @@ import Swal from 'sweetalert2'
 import StudentList from './studentlist';
 import BaiTapListStudent from './baitaplist';
 import ChatRoom from '../teacher/chatroom';
+import ChiTietBaiTap from './chitietbaitap';
 
 function SubjectDetailStudent(){
    const [subject, setSubject] = useState(null);
    const [value, setValue] = React.useState(1);
+   const [selectedBaiTap, setSelectedBaiTap] = useState(null);
+
     useEffect(()=>{
         var uls = new URL(document.URL)
         var id = uls.searchParams.get("id");
@@ -29,6 +32,9 @@ function SubjectDetailStudent(){
     }, []);
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        if (newValue === 3) {
+            setSelectedBaiTap(null);
+        }
     };
     
 
@@ -61,7 +67,11 @@ function SubjectDetailStudent(){
                 <StudentList subject={subject}/>
             </TabPanel>
             <TabPanel value={value} index={3} style={{width:"100%"}}>
-                <BaiTapListStudent subject={subject}/>
+                {selectedBaiTap ? (
+                    <ChiTietBaiTap subject={subject} baiTap={selectedBaiTap} onBack={() => setSelectedBaiTap(null)} />
+                ) : (
+                    <BaiTapListStudent subject={subject} onViewDetail={setSelectedBaiTap} />
+                )}
             </TabPanel>
             <TabPanel value={value} index={4} style={{width:"100%"}}>
             </TabPanel>

@@ -9,7 +9,7 @@ import { formatDate } from '../../services/dateservice';
 
 var size = 10;
 var url = '';
-function BaiTapListStudent({ subject }){
+function BaiTapListStudent({ subject, onViewDetail  }){
     const [items, setItems] = useState([]);
     const [baitap, setBaiTap] = useState(null);
     
@@ -44,7 +44,7 @@ function BaiTapListStudent({ subject }){
                         <div className="date-header">{formatDate(item.dueDate)}</div>
 
                         {item.assignments.map((ass) => (
-                            <div class="task-card">
+                            <div onClick={() => onViewDetail(ass)} class="task-card pointer">
                                 <div class="task-info">
                                     <div class="task-title">{ass.name}</div>
                                     <div class="task-submitted">Hạn cuối lúc {ass.duaTime}</div>
