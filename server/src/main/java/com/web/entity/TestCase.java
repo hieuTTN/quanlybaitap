@@ -15,6 +15,7 @@ public class TestCase {
     private Long id;
 
     private String input;
+
     private String expectedOutput;
 
     private Integer score;

@@ -1,5 +1,6 @@
 package com.web.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.web.enums.Language;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,12 +17,9 @@ public class SubmissionFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String fileName; // VD: Main.java, Program.cpp
-
-    @Lob
-    @Column(columnDefinition = "TEXT")
-    private String code; // Nội dung mã nguồn
+    private String link;
 
     @ManyToOne
+    @JsonBackReference
     private Submission submission;
 }

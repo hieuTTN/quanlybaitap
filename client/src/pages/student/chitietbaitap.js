@@ -3,28 +3,59 @@ import { Parser } from "html-to-react";
 import ReactPaginate from 'react-paginate';
 import {toast } from 'react-toastify';
 import Select from 'react-select';
-import {getMethod, deleteMethod, postMethodPayload} from '../../services/request';
+import {getMethod, deleteMethod, postMethodPayload, uploadMultipleFile} from '../../services/request';
 import Swal from 'sweetalert2'
 import { formatDate } from '../../services/dateservice';
 
 function ChiTietBaiTap({ subject, baiTap, onBack }){
     const [file, setFile] = useState(null);
-    const [submittedFiles, setSubmittedFiles] = useState([]);
+    const [checkHan, setCheckHan] = useState(true);
+    const [tempFiles, setTempFiles] = useState([]);
     useEffect(()=>{
-        
+        setCheckHan(isExpired(baiTap.dueDate, baiTap.duaTime))
     }, []);
     const handleFileChange = (event) => {
-        setFile(event.target.files[0]);
+        const selectedFile = event.target.files[0];
+        if (selectedFile) {
+            setTempFiles((prev) => [...prev, selectedFile]);
+            setFile(null); // reset file nếu không cần dùng biến file riêng
+        }
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        if (file) {
-        //   setSubmittedFiles([...submittedFiles, file.name]);
-          setFile(null);
-        }
-      };
+    const handleRemoveTempFile = (index) => {
+        setTempFiles((prev) => prev.filter((_, i) => i !== index));
+    };
 
+    function isExpired(dueDate, dueTime) {
+        const dueDateTime = new Date(`${dueDate}T${dueTime}`);
+        const now = new Date();
+        return dueDateTime < now;
+    }
+
+    async function saveCommit(event) {
+        event.preventDefault();
+        if(tempFiles.length == 0){
+            toast.error("Hãy chọn ít nhất 1 file");
+            return;
+        }
+        document.getElementById("loading").style.display = 'block'
+        var listfile = await uploadMultipleFile(tempFiles)
+        var dto = {
+            "commitName": event.target.elements.commitname.value,
+            "assignmentId": baiTap.id,
+            "files": listfile,
+        }
+        const response = await postMethodPayload('/api/submission/student/create', dto)
+        var result = await response.json();
+        if (response.status < 300) {
+            toast.success("Upload thành công");
+            setTempFiles([]);
+        } else {
+            toast.error("Upload thất bại");
+        }
+        document.getElementById("loading").style.display = 'none'
+    }
+    
 
     return(
         <div class="row">
@@ -66,14 +97,43 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
                     <small>Có 6 commit code</small>
                 </div>
                 <div class="file-list-container">
-                <form onSubmit={handleSubmit} className='row'>
-                    <div className="col-sm-8">
-                        <input type="file" className="form-control" id="fileInput" onChange={handleFileChange} required/>
+                {checkHan == false && (
+                    <><form onSubmit={saveCommit} className='row'>
+                    <div className='col-sm-5'>
+                        <input required className='form-control' placeholder='tên commit' name="commitname" />
                     </div>
                     <div className="col-sm-4">
+                        <input type="file" className="form-control" id="fileInput" onChange={handleFileChange} required style={{ display: 'none' }} />
+                        <button type="button" className="btn btn-outline-primary" onClick={() => document.getElementById('fileInput').click()}>
+                            <i className="fa fa-upload"></i> Chọn file
+                        </button>
+                    </div>
+                    <div className="col-sm-3">
                         <button type="submit" className="btn btn-primary form-control">Nộp File</button>
                     </div>
-                </form><hr/>
+                </form>
+                {/* hiện bảng file đã chọn, có tên file, loại file, kích thước file, có thể xóa được file đã chọn */}
+                {tempFiles.length > 0 && (
+                    <div className="mt-3">
+                        <h6>Danh sách file sẽ nộp:</h6>
+                        <ul className="list-group">
+                            {tempFiles.map((f, idx) => (
+                                <li key={idx} className="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>{f.name}</strong> <br/>
+                                        <small>Loại: {f.type || 'Không xác định'}, Kích thước: {(f.size / 1024).toFixed(1)} KB</small>
+                                    </div>
+                                    <button type="button" className="btn btn-sm btn-danger" onClick={() => handleRemoveTempFile(idx)}>Xóa</button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+                 <div id="loading">
+                    <div class="bar1 bar"></div>
+                </div><br/>
+                <hr/></>
+                )}
                 <div class="submission-container">
                     <div class="submission-header">
                         <div><span class="label">Thời gian nộp:</span> <span class="value">2025-04-30 10:00 AM</span></div>
