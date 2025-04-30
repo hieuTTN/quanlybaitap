@@ -5,15 +5,24 @@ import {toast } from 'react-toastify';
 import Select from 'react-select';
 import {getMethod, deleteMethod, postMethodPayload, uploadMultipleFile} from '../../services/request';
 import Swal from 'sweetalert2'
-import { formatDate } from '../../services/dateservice';
+import { formatDate,formatTimestamp } from '../../services/dateservice';
 
 function ChiTietBaiTap({ subject, baiTap, onBack }){
     const [file, setFile] = useState(null);
     const [checkHan, setCheckHan] = useState(true);
     const [tempFiles, setTempFiles] = useState([]);
+    const [submission, setSubmission] = useState([]);
     useEffect(()=>{
         setCheckHan(isExpired(baiTap.dueDate, baiTap.duaTime))
+        getSubmission();
     }, []);
+
+    const getSubmission= async() =>{
+        var response = await getMethod('/api/submission/student/my-submission?assId='+baiTap.id);
+        var result = await response.json();
+        setSubmission(result)
+    };
+
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
         if (selectedFile) {
@@ -54,8 +63,40 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
             toast.error("Upload thất bại");
         }
         document.getElementById("loading").style.display = 'none'
+        getSubmission();
     }
     
+    async function deleteCommit(id){
+        var con = window.confirm("Bạn chắc chắn muốn xóa commit này?");
+        if (con == false) {
+            return;
+        }
+        var response = await deleteMethod('/api/submission/student/delete?id='+id)
+        if (response.status < 300) {
+            toast.success("xóa thành công!");
+            getSubmission();
+        }
+        if (response.status == 417) {
+            var result = await response.json()
+            toast.warning(result.defaultMessage);
+        }
+    }
+
+    async function deleteFileCommit(id){
+        var con = window.confirm("Bạn chắc chắn muốn xóa file commit này?");
+        if (con == false) {
+            return;
+        }
+        var response = await deleteMethod('/api/submission/student/delete-file?id='+id)
+        if (response.status < 300) {
+            toast.success("xóa thành công!");
+            getSubmission();
+        }
+        if (response.status == 417) {
+            var result = await response.json()
+            toast.warning(result.defaultMessage);
+        }
+    }
 
     return(
         <div class="row">
@@ -94,7 +135,7 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
             <div class="col-sm-5">
                 <div class="text-muted head-commit-code">
                     <span>Upload file bài tập</span><br/>
-                    <small>Có 6 commit code</small>
+                    <small>Có {submission.length} commit code</small>
                 </div>
                 <div class="file-list-container">
                 {checkHan == false && (
@@ -134,23 +175,26 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
                 </div><br/>
                 <hr/></>
                 )}
-                <div class="submission-container">
-                    <div class="submission-header">
-                        <div><span class="label">Thời gian nộp:</span> <span class="value">2025-04-30 10:00 AM</span></div>
-                        <div><span class="label">Phiên bản:</span> <span class="value">1</span></div>
-                    </div>
-
-                    <div class="file-list">
-                        <div class="file-list-title">Danh sách file</div>
-                        <div class="file-item">
-                        <span class="file-name">Main.java</span>
-                        <button class="btn btn-outline-danger btn-sm">Xóa</button>
+                <div className='listsubmission'>
+                {submission.map((item=>{
+                    return <div class="submission-container">
+                        <div class="submission-header">
+                            <div><span class="label">Thời gian nộp:</span> <span class="value">{formatTimestamp(item.submitTime)}</span></div>
+                            <div><span class="label">Phiên bản:</span> <span class="value">{item.commitName}</span></div>
+                            <i onClick={()=>deleteCommit(item.id)} className='fa fa-trash-alt iconxoacommit'></i>
                         </div>
-                        <div class="file-item">
-                        <span class="file-name">Program.cpp</span>
-                        <button class="btn btn-outline-danger btn-sm">Xóa</button>
+                        <div class="file-list">
+                            <div class="file-list-title">Danh sách file</div>
+                            {item.submissionFiles.map((file=>{
+                                return <div class="file-item">
+                                    <span class="file-name">{file.link.split("/").pop()}</span>
+                                    <button onClick={()=>deleteFileCommit(file.id)} class="btn btn-outline-danger btn-sm">Xóa</button>
+                                    <a download={true} href={file.link} class="downloadbtn btn btn-outline-primary btn-sm"><i className='fa fa-download'></i></a>
+                                </div>
+                            }))}
                         </div>
                     </div>
+                }))}
                 </div>
                 </div>
             </div>

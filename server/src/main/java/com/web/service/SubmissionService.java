@@ -60,4 +60,8 @@ public class SubmissionService {
         submissionRepository.deleteById(id);
     }
 
+    public void deleteFile(Long id){
+        submissionFileRepository.deleteById(id);
+    }
+
 }

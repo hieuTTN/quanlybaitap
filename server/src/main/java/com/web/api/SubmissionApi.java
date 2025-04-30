@@ -32,6 +32,12 @@ public class SubmissionApi {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @DeleteMapping("/student/delete-file")
+    public ResponseEntity<?> deleteFile(@RequestParam("id") Long id){
+        submissionService.deleteFile(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/student/my-submission")
     public ResponseEntity<?> mySubjectTeacher(@RequestParam Long assId){
         List<Submission> result = submissionService.findByAss(assId);
