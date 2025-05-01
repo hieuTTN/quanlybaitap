@@ -50,8 +50,8 @@ function BaiTapList({ subject, onViewDetail }){
                         <div className="date-header">{formatDate(item.dueDate)}</div>
 
                         {item.assignments.map((ass) => (
-                            <div onClick={() => onViewDetail(ass)} class="task-card pointer">
-                                <div class="task-info">
+                            <div class="task-card pointer">
+                                <div class="task-info" onClick={() => onViewDetail(ass)}>
                                     <div class="task-title">{ass.name}</div>
                                     <div class="task-submitted">Hạn cuối lúc {ass.duaTime}</div>
                                 </div>

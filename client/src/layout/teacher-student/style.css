@@ -987,3 +987,29 @@
     cursor: pointer;
     color: #a1a1a1;
   }
+  .student-list {
+    list-style: none;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .student-item {
+    background-color: #fff;
+    transition: background-color 0.2s;
+    border: 1px solid #e0e0e0;
+    font-size: 12px;
+  }
+  
+  .student-item:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .student-avatar img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+  }
+  .student-list-ctbt{
+    height: 300px;
+    overflow-y: auto;
+  }

@@ -121,6 +121,15 @@ public class SubjectStudentService {
         return list;
     }
 
+    public List<SubjectStudent> allStudent(Long subjectId,String search){
+        if(search == null){
+            search = "";
+        }
+        search = "%"+search+"%";
+        List<SubjectStudent> list = subjectStudentRepository.allStudent(subjectId,search);
+        return list;
+    }
+
     public void cancelRequest(Long id){
         subjectStudentRepository.deleteById(id);
     }

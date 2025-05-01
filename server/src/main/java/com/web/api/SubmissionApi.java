@@ -39,8 +39,20 @@ public class SubmissionApi {
     }
 
     @GetMapping("/student/my-submission")
-    public ResponseEntity<?> mySubjectTeacher(@RequestParam Long assId){
+    public ResponseEntity<?> mySubjectStudent(@RequestParam Long assId){
         List<Submission> result = submissionService.findByAss(assId);
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
+    @GetMapping("/teacher/submission-student")
+    public ResponseEntity<?> subjectTeacher(@RequestParam Long assId, @RequestParam Long userId){
+        List<Submission> result = submissionService.findByAssAndUser(assId, userId);
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
+    @GetMapping("/teacher/find-by-id")
+    public ResponseEntity<?> findById(@RequestParam Long id){
+        Submission result = submissionService.findById(id);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 

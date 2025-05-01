@@ -64,6 +64,12 @@ public class SubjectStudentApi {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/teacher/all-student-list")
+    public ResponseEntity<?> allStudent(@RequestParam Long subjectId, @RequestParam(required = false) String search){
+        List<SubjectStudent> result = subjectStudentService.allStudent(subjectId, search);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @GetMapping("/student/all-student")
     public ResponseEntity<?> allStudentByStudent(@RequestParam Long subjectId, Pageable pageable, @RequestParam(required = false) String search){
         Page<SubjectStudent> result = subjectStudentService.allStudent(subjectId, pageable, search);

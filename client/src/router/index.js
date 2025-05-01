@@ -26,6 +26,7 @@ import SubjectTeacher from '../pages/teacher/subject'
 import AccountTeacher from '../pages/teacher/account'
 import ChatTeacher from '../pages/teacher/chat'
 import SubjectDetailTeacher from '../pages/teacher/subjectdetail'
+import ViewSource from '../pages/teacher/viewsource'
 
 //student
 import TinTucStudent from '../pages/student/blog'
@@ -52,6 +53,7 @@ const teacherRoutes = [
     { path: "/teacher/account", component: AccountTeacher, layout: layoutTeacher },
     { path: "/teacher/chat", component: ChatTeacher, layout: layoutTeacher },
     { path: "/teacher/subject-detail", component: SubjectDetailTeacher, layout: layoutTeacher },
+    { path: "/teacher/viewsource", component: ViewSource, layout: layoutTeacher },
 ];
 
 const studentRoutes = [

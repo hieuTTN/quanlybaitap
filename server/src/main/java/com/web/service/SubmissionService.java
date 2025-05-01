@@ -56,6 +56,11 @@ public class SubmissionService {
         return list;
     }
 
+    public List<Submission> findByAssAndUser(Long assId, Long userId){
+        List<Submission> list = submissionRepository.findByAssignmentAndUser(assId, userId);
+        return list;
+    }
+
     public void delete(Long id){
         submissionRepository.deleteById(id);
     }
@@ -64,4 +69,11 @@ public class SubmissionService {
         submissionFileRepository.deleteById(id);
     }
 
+    public Submission findById(Long id){
+        return submissionRepository.findById(id).get();
+    }
+
+    public SubmissionFile findFileById(Long id){
+        return submissionFileRepository.findById(id).get();
+    }
 }

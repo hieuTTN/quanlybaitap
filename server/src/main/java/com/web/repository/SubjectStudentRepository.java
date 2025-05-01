@@ -27,4 +27,7 @@ public interface SubjectStudentRepository extends JpaRepository<SubjectStudent, 
 
     @Query("select s from SubjectStudent s where s.subject.id = ?1 and s.accepted = true and (s.user.fullname like ?2 or s.user.email like ?2)")
     Page<SubjectStudent> allStudent(Long subjectId,String search, Pageable pageable);
+
+    @Query("select s from SubjectStudent s where s.subject.id = ?1 and s.accepted = true and (s.user.fullname like ?2 or s.user.email like ?2)")
+    List<SubjectStudent> allStudent(Long subjectId,String search);
 }

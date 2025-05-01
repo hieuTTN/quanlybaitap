@@ -9,9 +9,27 @@ import { formatDate,formatTimestamp } from '../../services/dateservice';
 
 function ChiTietBaiTap({ subject, baiTap, onBack }){
     const [submission, setSubmission] = useState([]);
+    const [subjectStudent, setSubjectStudent] = useState([]);
+    const [student, setStudent] = useState(null);
+
+
     useEffect(()=>{
+        getSubjectStudent();
     }, []);
 
+    const getSubjectStudent= async() =>{
+        var search = document.getElementById('search').value;
+        var response = await getMethod('/api/subject-student/teacher/all-student-list?subjectId='+subject.id+'&search='+search);
+        var result = await response.json();
+        setSubjectStudent(result)
+    };
+
+    const getSubmission= async(user) =>{
+        setStudent(user)
+        var response = await getMethod('/api/submission/teacher/submission-student?assId='+baiTap.id+'&userId='+user.id);
+        var result = await response.json();
+        setSubmission(result)
+    };
 
 
     return(
@@ -37,12 +55,35 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
                             <div class="text-muted">Không có file hướng dẫn</div>
                         )}
                     </div>
-                    <div class="mb-4">
-                        <strong>Danh sách sinh viên</strong>
+                    <div class="d-flex justify-content-between align-items-center bg-light border">
+                        <strong class="text-left"><i className='fa fa-users'></i> Danh sách sinh viên</strong>
+                        <div class="search-wrapper d-flex align-items-center">
+                            <input onKeyUp={()=>getSubjectStudent()} id='search' className='form-control' placeholder='Tìm kiếm sinh viên'/>
+                        </div>
                     </div>
+                    <ul className="student-list-ctbt p-0 m-0">
+                        {subjectStudent.map((item, index) => (
+                            <li onClick={()=>getSubmission(item.user)} key={index} className="student-item d-flex align-items-center p-2 mb shadow-sm rounded pointer">
+                                <div className="student-avatar me-3">
+                                    <img src={item.user.avatar} alt="avatar" className="rounded-circle" />
+                                </div>
+                                <div className="student-info">
+                                    <div className="fw-bold">{item.user.fullname}</div>
+                                    <div className="text-muted">Mã SV: {item.user.code}</div>
+                                    <div className="text-muted">Email: {item.user.email}</div>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+
                 </div>
             </div>
             <div class="col-sm-5">
+                {student != null && (
+                    <div class="d-flex justify-content-between align-items-center bg-light border">
+                        <strong class="text-left"><i className='fa fa-users'></i> Có {submission.length} commit với sinh viên {student.fullname}</strong>
+                    </div>
+                )}
                 <div class="file-list-container">
                 <div className='listsubmission'>
                 {submission.map((item=>{
@@ -57,6 +98,9 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
                                 return <div class="file-item">
                                     <span class="file-name">{file.link.split("/").pop()}</span>
                                     <a download={true} href={file.link} class="downloadbtn btn btn-outline-primary btn-sm"><i className='fa fa-download'></i></a>
+                                    {file.link.split("/").pop().split(".")[1] == 'rar' || file.link.split("/").pop().split(".")[1] == 'zip' ?
+                                    <a href={`/teacher/viewsource?subjectdetail=${subject.id}&baitap=${baiTap.id}&submission=${item.id}&submissionfile=${file.id}`} target='_blank' class="downloadbtn btn btn-outline-secondary btn-sm"><i className='fa fa-eye'></i> src</a>:
+                                    <a href={file.link} target='_blank' class="downloadbtn btn btn-outline-danger btn-sm"><i className='fa fa-eye'></i> src</a>}
                                 </div>
                             }))}
                         </div>
