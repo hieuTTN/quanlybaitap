@@ -67,7 +67,7 @@ function SubjectDetailTeacher(){
             <TabPanel value={value} index={2} style={{width:"100%"}}>
                 <StudentList subject={subject}/>
             </TabPanel>
-            <TabPanel value={value} index={3} style={{width:"100%"}}>
+            <TabPanel value={value} index={3} style={{width:"100%"}} className='tabpanelcustom'>
                 {selectedBaiTap ? (
                     <ChiTietBaiTap subject={subject} baiTap={selectedBaiTap} onBack={() => setSelectedBaiTap(null)} />
                 ) : (

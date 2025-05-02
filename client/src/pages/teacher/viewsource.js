@@ -109,11 +109,11 @@ function ViewSource(){
         <div class='row'>
             <div className='col-sm-4'>
                 <h5><b>Cấu trúc thư mục:</b></h5>
-                <Tree treeData={treeData} onSelect={onSelect} defaultExpandAll/>
+                <div className='treesrc'><Tree treeData={treeData} onSelect={onSelect} defaultExpandAll/></div>
             </div>
             <div className='col-sm-8'>
                 <h5><b>{selectedFileName}</b></h5>
-                <pre>
+                <pre className='codecontent'>
                     <code dangerouslySetInnerHTML={{ __html: hljs.highlightAuto(selectedFileContent).value }}/>
                 </pre>
             </div>

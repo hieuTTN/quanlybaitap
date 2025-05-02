@@ -1020,3 +1020,15 @@
     height: 300px;
     overflow-y: auto;
   }
+
+  .tabpanelcustom{
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+  .treesrc{
+    height: calc(100vh-140px);
+    overflow-y: auto;
+  }
+  .codecontent{
+    height: calc(100vh - 140px);
+  }
