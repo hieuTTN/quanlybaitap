@@ -63,6 +63,7 @@ function BaiTapList({ subject, onViewDetail }){
                                 <div class="task-info" onClick={() => onViewDetail(ass)}>
                                     <div class="task-title">{ass.name}</div>
                                     <div class="task-submitted">Hạn cuối lúc {ass.duaTime}</div>
+                                    <div class="task-submitted">Số testcase {ass.numTestCase}</div>
                                 </div>
                                 <div className='d-flex'>
                                     {isExpired(ass.dueDate, ass.duaTime) == true?<span class="badge-error">Hết hạn</span>:<span class="badge-success">Còn hạn</span>}

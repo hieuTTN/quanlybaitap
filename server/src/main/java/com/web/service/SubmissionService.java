@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -31,9 +32,18 @@ public class SubmissionService {
 
     public Submission save(SubmissionDto dto){
         Assignment assignment = assignmentRepository.findById(dto.getAssignmentId()).get();
-//        if(assignment.getDueDate().before(new)){
-//
-//        }
+        // kiểm tra nếu bài tập nộp quá hạn thì return lỗi
+        // Kiểm tra nếu quá hạn nộp thì không cho nộp
+        LocalDateTime now = LocalDateTime.now();
+
+        LocalDateTime deadline = LocalDateTime.of(
+                assignment.getDueDate().toLocalDate(),
+                assignment.getDuaTime().toLocalTime()
+        );
+
+        if (now.isAfter(deadline)) {
+            throw new RuntimeException("Quá hạn nộp bài. Hạn chót là: " + deadline);
+        }
         Submission submission = new Submission();
         submission.setCommitName(dto.getCommitName());
         submission.setAssignment(assignmentRepository.findById(dto.getAssignmentId()).get());

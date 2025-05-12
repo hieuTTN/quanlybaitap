@@ -1,5 +1,6 @@
 package com.web.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.web.config.SqlTimeDeserializer;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "asignment")
@@ -43,4 +45,14 @@ public class Assignment {
     @ManyToOne
     private Subject subject;
 
+    @OneToMany(mappedBy = "assignment", cascade = CascadeType.REMOVE)
+    @JsonBackReference
+    private List<TestCase> testCases;
+
+    @Transient
+    private Integer numTestCase = 0;
+
+    public Integer getNumTestCase() {
+        return testCases.size();
+    }
 }

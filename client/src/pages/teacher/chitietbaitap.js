@@ -6,16 +6,26 @@ import Select from 'react-select';
 import {getMethod, deleteMethod, postMethodPayload, uploadMultipleFile} from '../../services/request';
 import Swal from 'sweetalert2'
 import { formatDate,formatTimestamp } from '../../services/dateservice';
+import ModalChamDiem from './modalchamdiem';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import React, { useRef } from 'react';
 
 function ChiTietBaiTap({ subject, baiTap, onBack }){
     const [submission, setSubmission] = useState([]);
     const [subjectStudent, setSubjectStudent] = useState([]);
     const [student, setStudent] = useState(null);
-
+    const [studentSet, setStudentSet] = useState(null);
+    const modalRef = useRef();
 
     useEffect(()=>{
         getSubjectStudent();
-    }, []);
+        if (studentSet && modalRef.current) {
+            const modal = new window.bootstrap.Modal(modalRef.current);
+            modal.show();
+        }
+    }, [studentSet]);
+
+
 
     const getSubjectStudent= async() =>{
         var search = document.getElementById('search').value;
@@ -30,6 +40,10 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
         var result = await response.json();
         setSubmission(result)
     };
+
+    function setModalChamDiem(std){
+        setStudentSet(std)
+    }
 
 
     return(
@@ -63,14 +77,17 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
                     </div>
                     <ul className="student-list-ctbt p-0 m-0">
                         {subjectStudent.map((item, index) => (
-                            <li onClick={()=>getSubmission(item.user)} key={index} className="student-item d-flex align-items-center p-2 mb shadow-sm rounded pointer">
-                                <div className="student-avatar me-3">
+                            <li key={index} className="student-item d-flex align-items-center p-2 mb shadow-sm rounded">
+                                <div onClick={()=>getSubmission(item.user)} className="student-avatar me-3 pointer">
                                     <img src={item.user.avatar} alt="avatar" className="rounded-circle" />
                                 </div>
-                                <div className="student-info">
+                                <div onClick={()=>getSubmission(item.user)} className="student-info pointer">
                                     <div className="fw-bold">{item.user.fullname}</div>
                                     <div className="text-muted">Mã SV: {item.user.code}</div>
                                     <div className="text-muted">Email: {item.user.email}</div>
+                                </div>
+                                <div className="student-divdiem">
+                                    <button onClick={()=>setModalChamDiem(item.user)}  className='btn btn-outline-primary'> Chấm điểm</button>
                                 </div>
                             </li>
                         ))}
@@ -100,7 +117,7 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
                                     <a download={true} href={file.link} class="downloadbtn btn btn-outline-primary btn-sm"><i className='fa fa-download'></i></a>
                                     {file.link.split("/").pop().split(".")[1] == 'rar' || file.link.split("/").pop().split(".")[1] == 'zip' ?
                                     <a href={`/teacher/viewsource?subjectdetail=${subject.id}&baitap=${baiTap.id}&submission=${item.id}&submissionfile=${file.id}`} target='_blank' class="downloadbtn btn btn-outline-secondary btn-sm"><i className='fa fa-eye'></i> src</a>:
-                                    <a href={file.link} target='_blank' class="downloadbtn btn btn-outline-danger btn-sm"><i className='fa fa-eye'></i> src</a>}
+                                    <a href={file.link} target='_blank' class="downloadbtn btn btn-outline-danger btn-sm"><i className='fa fa-eye'></i> view</a>}
                                 </div>
                             }))}
                         </div>
@@ -109,6 +126,9 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
                 </div>
                 </div>
             </div>
+            {studentSet != null && (
+                <ModalChamDiem subject={subject} baitap={baiTap} sinhVien={studentSet} modalRef={modalRef}/>
+            )}
         </div>
     );
 }

@@ -25,5 +25,5 @@ public class TestResult {
     private TestCase testCase;
 
     @ManyToOne
-    private Submission submission;
+    private User user;
 }
