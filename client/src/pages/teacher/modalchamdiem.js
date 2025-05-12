@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getMethod, postMethodPayload } from '../../services/request';
+import { getMethod, postMethodPayload, deleteMethod } from '../../services/request';
 import { toast } from 'react-toastify';
 import { Editor } from '@tinymce/tinymce-react';
 import React, { useRef } from 'react';
@@ -8,6 +8,8 @@ import React, { useRef } from 'react';
 function ModalChamDiem({ subject, baitap, sinhVien, modalRef  }) {
     const [testResult, setTestResult] = useState([]);
     const [testCase, setTestCase] = useState([]);
+    const [tongDiem, setTongDiem] = useState(0);
+    const [diemSinhVien, setDiemSinhVien] = useState(0);
 
     useEffect(()=>{
         getData(); 
@@ -19,6 +21,17 @@ function ModalChamDiem({ subject, baitap, sinhVien, modalRef  }) {
         console.log(result);
         setTestCase(result.testCases)
         setTestResult(result.testResults)
+        var tongTestCase = 0;
+        var tongSinhVien = 0;
+        for(var i=0; i< result.testCases.length; i++){
+            tongTestCase += result.testCases[i].score
+        }
+        for(var i=0; i< result.testResults.length; i++){
+            tongTestCase += result.testResults[i].testCase.score
+            tongSinhVien += result.testResults[i].earnedScore
+        }
+        setTongDiem(tongTestCase)
+        setDiemSinhVien(tongSinhVien)
     };
     
     async function saveResult(event) {
@@ -43,7 +56,23 @@ function ModalChamDiem({ subject, baitap, sinhVien, modalRef  }) {
             getData();
         }
     }
-    
+
+    async function deleteDiem(id){
+        var con = window.confirm("Bạn chắc chắn muốn xóa kết quả này?");
+        if (con == false) {
+            return;
+        }
+        var response = await deleteMethod('/api/testresult/teacher/delete?id='+id)
+        if (response.status < 300) {
+            toast.success("xóa thành công!");
+            getData();
+        }
+        if (response.status == 417) {
+            var result = await response.json()
+            toast.warning(result.defaultMessage);
+        }
+    }
+
   return (
     <div className="modal fade" id="modalChamDiem" tabIndex="-1" 
     aria-labelledby="exampleModalLabel" aria-hidden="true" ref={modalRef} >
@@ -54,6 +83,7 @@ function ModalChamDiem({ subject, baitap, sinhVien, modalRef  }) {
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div className="modal-body contentresultestcase">
+            <span className='tongdiemsinhvien'>Điểm {diemSinhVien} / {tongDiem}</span>
             <table className='table'>
                 <thead>
                     <tr>
@@ -97,7 +127,7 @@ function ModalChamDiem({ subject, baitap, sinhVien, modalRef  }) {
                                     <div className='divchamdiem'>
                                         <input name='diem' placeholder='Điểm' defaultValue={item.earnedScore} className='inputeditdiem'/>
                                         <button className='edit-btn'><i className='fa fa-edit'></i> Lưu</button>
-                                        <button className='delete-btn' type="button"><i className='fa fa-trash-alt'></i></button>
+                                        <button onClick={()=>deleteDiem(item.id)} className='delete-btn' type="button"><i className='fa fa-trash-alt'></i></button>
                                     </div>
                                 </form>
                             </td>

@@ -11,4 +11,9 @@ public interface TestResultRepository extends JpaRepository<TestResult, Long> {
 
     @Query("SELECT tr FROM TestResult tr WHERE tr.user.id = ?1 AND tr.testCase.assignment.id = ?2")
     List<TestResult> findByUserIdAndAssignmentId(Long userId, Long assignmentId);
+
+    @Query("SELECT sum(tr.earnedScore) FROM TestResult tr WHERE tr.user.id = ?1 AND tr.testCase.assignment.id = ?2")
+    Integer totalScore(Long userId, Long assignmentId);
+
+
 }

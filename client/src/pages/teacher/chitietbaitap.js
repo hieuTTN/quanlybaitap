@@ -29,7 +29,7 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
 
     const getSubjectStudent= async() =>{
         var search = document.getElementById('search').value;
-        var response = await getMethod('/api/subject-student/teacher/all-student-list?subjectId='+subject.id+'&search='+search);
+        var response = await getMethod('/api/subject-student/teacher/all-student-list?subjectId='+subject.id+'&assId='+baiTap.id+'&search='+search);
         var result = await response.json();
         setSubjectStudent(result)
     };
@@ -86,8 +86,12 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
                                     <div className="text-muted">Mã SV: {item.user.code}</div>
                                     <div className="text-muted">Email: {item.user.email}</div>
                                 </div>
+                                <div className="student-tongdiem">
+                                    Điểm {item.totalScore} / {baiTap.totalScore}
+                                </div>
                                 <div className="student-divdiem">
                                     <button onClick={()=>setModalChamDiem(item.user)}  className='btn btn-outline-primary'> Chấm điểm</button>
+                                    <button onClick={()=>getSubmission(item.user)}  className='btn btn-outline-danger'><i class="fa fa-file"></i></button>
                                 </div>
                             </li>
                         ))}

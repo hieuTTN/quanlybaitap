@@ -40,10 +40,8 @@ public class TestResultService {
         return testResult;
     }
 
-    public TestResult update(TestResult testResult){
-        TestResult ex = testResultRepository.findById(testResult.getId()).get();
-        testResult.setUser(ex.getUser());
-        testResultRepository.save(testResult);
-        return testResult;
+    public void delete(Long id){
+        testResultRepository.deleteById(id);
     }
+
 }

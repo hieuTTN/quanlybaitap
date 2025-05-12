@@ -26,4 +26,7 @@ public class SubjectStudent {
 
     @ManyToOne
     private User user;
+
+    @Transient
+    private Integer totalScore = 0;
 }

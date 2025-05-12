@@ -5,10 +5,7 @@ import com.web.entity.Subject;
 import com.web.entity.SubjectStudent;
 import com.web.entity.User;
 import com.web.exception.MessageException;
-import com.web.repository.CategoryRepository;
-import com.web.repository.SubjectRepository;
-import com.web.repository.SubjectStudentRepository;
-import com.web.repository.UserRepository;
+import com.web.repository.*;
 import com.web.utils.MailService;
 import com.web.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +39,9 @@ public class SubjectStudentService {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private TestResultRepository testResultRepository;
 
     public List<User> findStudent(Long subjectId,String param) {
         if(param.equals("")){
@@ -121,12 +121,16 @@ public class SubjectStudentService {
         return list;
     }
 
-    public List<SubjectStudent> allStudent(Long subjectId,String search){
+    public List<SubjectStudent> allStudent(Long subjectId,String search, Long assId){
         if(search == null){
             search = "";
         }
         search = "%"+search+"%";
         List<SubjectStudent> list = subjectStudentRepository.allStudent(subjectId,search);
+        for(SubjectStudent s : list){
+            Integer diem = testResultRepository.totalScore(s.getUser().getId(), assId);
+            s.setTotalScore(diem);
+        }
         return list;
     }
 

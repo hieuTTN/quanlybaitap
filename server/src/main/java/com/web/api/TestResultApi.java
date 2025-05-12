@@ -30,9 +30,9 @@ public class TestResultApi {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    @PostMapping("/teacher/update")
-    public ResponseEntity<?> update(@RequestBody TestResult testResult){
-        TestResult result = testResultService.update(testResult);
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    @DeleteMapping("/teacher/delete")
+    public ResponseEntity<?> delete(@RequestParam Long id){
+        testResultService.delete(id);
+        return new ResponseEntity<>("success", HttpStatus.CREATED);
     }
 }

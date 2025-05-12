@@ -1072,3 +1072,13 @@
 .ghichudiemtest{
     height: 40px;
 }
+.tongdiemsinhvien{
+    display: block !important;
+    background-color: #ebebeb;
+    padding: 5px 10px;
+    font-weight: 700;
+}
+.student-tongdiem{
+    margin-left: 20px;
+    font-weight: bold;
+}

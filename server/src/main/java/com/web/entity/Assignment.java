@@ -52,7 +52,17 @@ public class Assignment {
     @Transient
     private Integer numTestCase = 0;
 
+    @Transient
+    private Integer totalScore = 0;
+
     public Integer getNumTestCase() {
         return testCases.size();
+    }
+
+    public Integer getTotalScore() {
+        for(TestCase t : testCases){
+            this.totalScore += t.getScore();
+        }
+        return totalScore;
     }
 }
