@@ -15,6 +15,7 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
     const [subjectStudent, setSubjectStudent] = useState([]);
     const [student, setStudent] = useState(null);
     const [studentSet, setStudentSet] = useState(null);
+    const [keyStudent, setKeyStudent] = useState(-1);
     const modalRef = useRef();
 
     useEffect(()=>{
@@ -34,7 +35,8 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
         setSubjectStudent(result)
     };
 
-    const getSubmission= async(user) =>{
+    const getSubmission= async(user, index) =>{
+        setKeyStudent(index)
         setStudent(user)
         var response = await getMethod('/api/submission/teacher/submission-student?assId='+baiTap.id+'&userId='+user.id);
         var result = await response.json();
@@ -77,11 +79,11 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
                     </div>
                     <ul className="student-list-ctbt p-0 m-0">
                         {subjectStudent.map((item, index) => (
-                            <li key={index} className="student-item d-flex align-items-center p-2 mb shadow-sm rounded">
-                                <div onClick={()=>getSubmission(item.user)} className="student-avatar me-3 pointer">
+                            <li key={index}  className={`student-item d-flex align-items-center p-2 mb shadow-sm rounded ${index === keyStudent ? 'studentActive' : ''}`}>
+                                <div onClick={()=>getSubmission(item.user, index)} className="student-avatar me-3 pointer">
                                     <img src={item.user.avatar} alt="avatar" className="rounded-circle" />
                                 </div>
-                                <div onClick={()=>getSubmission(item.user)} className="student-info pointer">
+                                <div onClick={()=>getSubmission(item.user, index)} className="student-info pointer">
                                     <div className="fw-bold">{item.user.fullname}</div>
                                     <div className="text-muted">Mã SV: {item.user.code}</div>
                                     <div className="text-muted">Email: {item.user.email}</div>
@@ -91,7 +93,7 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
                                 </div>
                                 <div className="student-divdiem">
                                     <button onClick={()=>setModalChamDiem(item.user)}  className='btn btn-outline-primary'> Chấm điểm</button>
-                                    <button onClick={()=>getSubmission(item.user)}  className='btn btn-outline-danger'><i class="fa fa-file"></i></button>
+                                    <button onClick={()=>getSubmission(item.user, index)}  className='btn btn-outline-danger'><i class="fa fa-file"></i></button>
                                 </div>
                             </li>
                         ))}

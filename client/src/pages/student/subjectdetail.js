@@ -13,6 +13,7 @@ import StudentList from './studentlist';
 import BaiTapListStudent from './baitaplist';
 import ChatRoom from '../teacher/chatroom';
 import ChiTietBaiTap from './chitietbaitap';
+import DanhSachFile from './danhsachfile';
 
 function SubjectDetailStudent(){
    const [subject, setSubject] = useState(null);
@@ -74,6 +75,7 @@ function SubjectDetailStudent(){
                 )}
             </TabPanel>
             <TabPanel value={value} index={4} style={{width:"100%"}}>
+                <DanhSachFile subject={subject}/>
             </TabPanel>
         </Box>
         </div>

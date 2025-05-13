@@ -15,6 +15,7 @@ import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AssignmentService {
@@ -47,6 +48,29 @@ public class AssignmentService {
         for(AssignmentResponse r : result){
             for(Assignment a : assignments){
                 if(a.getDueDate().equals(r.getDueDate())){
+                    r.getAssignments().add(a);
+                }
+            }
+        }
+        return result;
+    }
+
+    public List<AssignmentResponse> findBySubjectAndFile(Long subjectId){
+        List<LocalDateTime> localDateTimes = assignmentRepository.findDateBySubjectAndFile(subjectId);
+        List<Date> dates = localDateTimes.stream()
+                .map(ldt -> java.sql.Date.valueOf(ldt.toLocalDate()))
+                .collect(Collectors.toList());
+
+        List<AssignmentResponse> result = new ArrayList<>();
+        for(Date d : dates){
+            AssignmentResponse a = new AssignmentResponse();
+            a.setDueDate(d);
+            result.add(a);
+        }
+        List<Assignment> assignments = assignmentRepository.findBySubjectAndFile(subjectId);
+        for(AssignmentResponse r : result){
+            for(Assignment a : assignments){
+                if(Date.valueOf(a.getCreatedDate().toLocalDate()).equals(r.getDueDate())){
                     r.getAssignments().add(a);
                 }
             }

@@ -33,6 +33,12 @@ public class AssignmentApi {
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
+    @GetMapping("/teacher-student/find-file")
+    public ResponseEntity<?> findFile(@RequestParam Long subjectId){
+        List<AssignmentResponse> result = assignmentService.findBySubjectAndFile(subjectId);
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
     @GetMapping("/student/find-by-subject")
     public ResponseEntity<?> findByStudent(@RequestParam Long subjectId){
         List<AssignmentResponse> result = assignmentService.findBySubject(subjectId);
