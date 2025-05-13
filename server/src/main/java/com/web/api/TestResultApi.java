@@ -1,5 +1,6 @@
 package com.web.api;
 
+import com.web.dto.response.ResultResponse;
 import com.web.dto.response.TestResultResponse;
 import com.web.entity.TestCase;
 import com.web.entity.TestResult;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/testresult")
@@ -34,5 +37,11 @@ public class TestResultApi {
     public ResponseEntity<?> delete(@RequestParam Long id){
         testResultService.delete(id);
         return new ResponseEntity<>("success", HttpStatus.CREATED);
+    }
+
+    @GetMapping("/teacher/get-all-score")
+    public ResponseEntity<?> getScore(@RequestParam Long assignmentId){
+        List<ResultResponse> result = testResultService.findByAssAndSubject(assignmentId);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 }

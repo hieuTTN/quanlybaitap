@@ -1,7 +1,10 @@
 package com.web.service;
+import com.web.dto.response.ResultResponse;
 import com.web.dto.response.TestResultResponse;
+import com.web.entity.Assignment;
 import com.web.entity.TestCase;
 import com.web.entity.TestResult;
+import com.web.repository.AssignmentRepository;
 import com.web.repository.TestCaseRepository;
 import com.web.repository.TestResultRepository;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,9 @@ public class TestResultService {
 
     @Autowired
     private TestCaseRepository testCaseRepository;
+
+    @Autowired
+    private AssignmentRepository assignmentRepository;
 
     @Autowired
     private TestResultRepository testResultRepository;
@@ -42,6 +48,12 @@ public class TestResultService {
 
     public void delete(Long id){
         testResultRepository.deleteById(id);
+    }
+
+    public List<ResultResponse> findByAssAndSubject(Long assId){
+        Assignment ass = assignmentRepository.findById(assId).get();
+        List<ResultResponse> list = testResultRepository.findByAssIdAndSubjectId(assId, ass.getSubject().getId());
+        return list;
     }
 
 }
