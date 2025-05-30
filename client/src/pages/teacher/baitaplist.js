@@ -32,7 +32,21 @@ function BaiTapList({ subject, onViewDetail }){
         return dueDateTime < now;
     }
 
-
+    async function deleteBaiTap(id){
+        var con = window.confirm("Bạn chắc chắn muốn xóa bài tập này?");
+        if (con == false) {
+            return;
+        }
+        var response = await deleteMethod('/api/assignment/teacher/delete?id='+id)
+        if (response.status < 300) {
+            toast.success("xóa thành công!");
+            getBaiTap();
+        }
+        if (response.status == 417) {
+            var result = await response.json()
+            toast.warning(result.defaultMessage);
+        }
+    }
 
     async function exportDiem(assId, assName, subjectName) {
         const response = await getMethod('/api/testresult/teacher/get-all-score?assignmentId=' + assId);
@@ -119,7 +133,7 @@ function BaiTapList({ subject, onViewDetail }){
                                 <div className='d-flex'>
                                     {isExpired(ass.dueDate, ass.duaTime) == true?<span class="badge-error">Hết hạn</span>:<span class="badge-success">Còn hạn</span>}
                                     <button title='sửa bài tập' onClick={()=>setBaiTap(ass)} data-bs-toggle="modal" data-bs-target="#modalAddBaiTap" className='edit-btn'><i className='fa fa-edit'></i></button>
-                                    <button title='xóa' className='delete-btn'><i className='fa fa-remove'></i></button>
+                                    <button onClick={()=>deleteBaiTap(ass.id)} title='xóa' className='delete-btn'><i className='fa fa-remove'></i></button>
                                     <button title='Testcase' onClick={()=>setBaiTap(ass)} data-bs-toggle="modal" data-bs-target="#modalTestcase" className='delete-btn'><i className='fa fa-clipboard'></i></button>
                                     <button onClick={()=>exportDiem(ass.id, ass.name, ass.subject.name)} className='edit-btn' title="Xuất Excel"><i className='fa fa-file-excel'></i></button>
                                 </div>

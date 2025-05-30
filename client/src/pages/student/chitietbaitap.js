@@ -123,7 +123,7 @@ function ChiTietBaiTap({ subject, baiTap, onBack }){
                         {baiTap.file && baiTap.file.trim() !== '' ? (
                             <div class="file-item mt-2">
                                 <img src="https://cdn-icons-png.flaticon.com/512/888/888879.png" class="file-icon" alt="file" />
-                                <a download={true} href={baiTap.file} class="file-name">Tải xuống - {baiTap.file.split("/").pop()}</a>
+                                <a target='_blank' download={true} href={baiTap.file} class="file-name">Tải xuống - {baiTap.file.split("/").pop()}</a>
                                 <span class="text-secondary">⋯</span>
                             </div>
                             ) : (

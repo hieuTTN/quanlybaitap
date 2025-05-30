@@ -44,4 +44,11 @@ public class AssignmentApi {
         List<AssignmentResponse> result = assignmentService.findBySubject(subjectId);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
+
+    @DeleteMapping("/teacher/delete")
+    public ResponseEntity<?> delete(@RequestParam("id") Long id){
+        assignmentService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

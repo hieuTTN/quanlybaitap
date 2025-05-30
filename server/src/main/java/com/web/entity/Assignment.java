@@ -12,6 +12,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -47,7 +48,7 @@ public class Assignment {
 
     @OneToMany(mappedBy = "assignment", cascade = CascadeType.REMOVE)
     @JsonBackReference
-    private List<TestCase> testCases;
+    private List<TestCase> testCases = new ArrayList<>();
 
     @Transient
     private Integer numTestCase = 0;

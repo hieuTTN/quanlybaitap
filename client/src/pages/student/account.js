@@ -102,7 +102,6 @@ function AccountStudent(){
 
                 <Tab label="Thông tin" {...a11yProps(0)} />
                 <Tab label="Đổi mật khẩu" {...a11yProps(1)} />
-                <Tab label="Thống kê" {...a11yProps(2)} />
             </Tabs>
             <TabPanel value={value} index={0} style={{width:"100%"}}>
                 <form onSubmit={updateInfor} method='post' className='row'>
@@ -143,8 +142,6 @@ function AccountStudent(){
                     <button type="submit" class="btn btn-primary form-control">LƯU</button>
                 </form>
             </div>
-            </TabPanel>
-            <TabPanel value={value} index={2} style={{width:"100%"}}>
             </TabPanel>
         </Box>
         </div>

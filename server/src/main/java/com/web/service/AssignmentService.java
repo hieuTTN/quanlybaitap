@@ -5,6 +5,7 @@ import com.web.dto.response.AssignmentResponse;
 import com.web.dto.response.BlogResponse;
 import com.web.entity.Assignment;
 import com.web.entity.Blog;
+import com.web.exception.MessageException;
 import com.web.repository.AssignmentRepository;
 import com.web.repository.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,5 +77,14 @@ public class AssignmentService {
             }
         }
         return result;
+    }
+
+    public void delete(Long id) {
+        try {
+            assignmentRepository.deleteById(id);
+        }
+        catch (Exception e){
+            throw new MessageException("Bài tập đã có liên kết, không thể xóa");
+        }
     }
 }

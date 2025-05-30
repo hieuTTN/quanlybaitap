@@ -29,6 +29,7 @@ function ModalAddBaiTap({ subject, baitap , refreshStudentList  }) {
 
     async function saveBaiTap(event) {
         event.preventDefault();
+        document.getElementById("btnluu").disabled  = true
         document.getElementById("loading").style.display = 'block'
         var ims = await uploadSingleFile(document.getElementById("chonfile"))
         if(ims != null){
@@ -57,13 +58,15 @@ function ModalAddBaiTap({ subject, baitap , refreshStudentList  }) {
         console.log(result)
         if (response.status < 300) {
             toast.success("Thành công");
+            document.getElementById("btnluu").disabled  = false
             if (typeof refreshStudentList === 'function') {
                 refreshStudentList();
                 document.getElementById("loading").style.display = 'none'  
             }
         } else {
-            toast.error("Thêm/ sửa bài viết thất bại");
+            toast.error("Thêm/ sửa bài tập thất bại");
             document.getElementById("loading").style.display = 'none'
+            document.getElementById("btnluu").disabled  = false
         }
     }
   return (
@@ -107,7 +110,7 @@ function ModalAddBaiTap({ subject, baitap , refreshStudentList  }) {
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            <button form='formadd' className="btn btn-primary">Lưu</button>
+            <button id='btnluu' form='formadd' className="btn btn-primary">Lưu</button>
           </div>
         </div>
       </div>
